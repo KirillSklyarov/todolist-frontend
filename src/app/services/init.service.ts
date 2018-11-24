@@ -6,6 +6,7 @@ import {AuthService} from './auth.service';
 import {Token} from '../entities/token';
 import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {ApiResponse} from '../entities/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -28,23 +29,25 @@ export class InitService {
     // const result = new Subject<boolean>();
     const initUri = this.apiServer + this.createUserUri;
     let savedToken: string;
-    try {
-      savedToken = localStorage.getItem('token');
-      if (savedToken) {
-        this.token = JSON.parse(savedToken);
-      }
-    } catch (e) {
-      // TODO: alert component
-      console.error(e.message);
-    }
+    // try {
+    //   savedToken = localStorage.getItem('token');
+    //   if (savedToken) {
+    //     this.token = <Token>JSON.parse(savedToken);
+    //   }
+    // } catch (e) {
+    //   // TODO: alert component
+    //   console.error(e.message);
+    // }
     // TODO: add date check
     if (this.token) {
       this.authService.token = this.token;
       this.result.next(true);
     } else {
-      this.httpClient.post<Token>(initUri, null)
+      this.httpClient.post<ApiResponse<Token>>(initUri, null)
         .subscribe(
-          (token: Token) => {
+          (apiResponse: ApiResponse<Token>) => {
+            const token = apiResponse.data;
+            console.log(token);
             this.token = token;
             this.authService.token = this.token;
             try {
