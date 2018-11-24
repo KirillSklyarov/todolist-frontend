@@ -12,6 +12,7 @@ import {tap} from 'rxjs/operators';
 })
 export class InitService {
   private readonly apiServer = environment.apiServer;
+  private readonly result: Subject<boolean> = new Subject<boolean>();
   private readonly createUserUri = '/api/v1/user/create';
   private token: Token;
 
@@ -19,8 +20,12 @@ export class InitService {
               private authService: AuthService) {
   }
 
-  public init(): Subject<boolean> {
-    const result = new Subject<boolean>();
+  public getResult(): Subject<boolean> {
+    return this.result;
+  }
+
+  public init(): void {
+    // const result = new Subject<boolean>();
     const initUri = this.apiServer + this.createUserUri;
     let savedToken: string;
     try {
@@ -35,7 +40,7 @@ export class InitService {
     // TODO: add date check
     if (this.token) {
       this.authService.token = this.token;
-      result.next(true);
+      this.result.next(true);
     } else {
       this.httpClient.post<Token>(initUri, null)
         .subscribe(
@@ -48,18 +53,15 @@ export class InitService {
               // TODO: alert component
               console.error(e.message);
             }
-            result.next(true);
+            this.result.next(true);
           },
           error => {
             console.log(error);
-            result.next(false);
+            this.result.next(false);
           }
         );
     }
     console.log(this.token);
-
-
-    return result;
   }
 
 }

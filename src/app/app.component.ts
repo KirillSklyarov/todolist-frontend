@@ -16,10 +16,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.initService.init().subscribe((result: boolean) => {
+    this.initService.getResult().subscribe((result: boolean) => {
       console.log(result);
       this.isInitialized = result;
     });
+    this.initService.init();
   }
 
 }
