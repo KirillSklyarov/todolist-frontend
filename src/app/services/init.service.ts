@@ -1,20 +1,21 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
+import {Subscription} from 'rxjs/internal/Subscription';
 
 import {AuthService} from './auth.service';
 import {Token} from '../entities/token';
 import {Observable, Subject} from 'rxjs';
-import {tap} from 'rxjs/operators';
 import {ApiResponse} from '../entities/api-response';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InitService {
-  private readonly apiServer = environment.apiServer;
+export class InitService implements OnDestroy {
+  // private readonly apiServer = environment.apiServer;
   private readonly result: Subject<boolean> = new Subject<boolean>();
-  private readonly createUserUri = '/api/v1/user/create';
+  private readonly createUserUri = environment.apiServer + '/api/v1/user/create';
+  private readonly subscriptions: Subscription = new Subscription();
   private token: Token;
 
   constructor(private httpClient: HttpClient,
@@ -26,28 +27,26 @@ export class InitService {
   }
 
   public init(): void {
-    // const result = new Subject<boolean>();
-    const initUri = this.apiServer + this.createUserUri;
+    const result = new Subject<boolean>();
     let savedToken: string;
-    // try {
-    //   savedToken = localStorage.getItem('token');
-    //   if (savedToken) {
-    //     this.token = <Token>JSON.parse(savedToken);
-    //   }
-    // } catch (e) {
-    //   // TODO: alert component
-    //   console.error(e.message);
-    // }
+    try {
+      const savedToken = localStorage.getItem('token');
+      // if (savedToken) {
+      this.token = <Token>JSON.parse(savedToken);
+      // }
+    } catch (e) {
+      // TODO: alert component
+      console.error(e.message);
+    }
     // TODO: add date check
     if (this.token) {
       this.authService.token = this.token;
       this.result.next(true);
     } else {
-      this.httpClient.post<ApiResponse<Token>>(initUri, null)
+      const subscription = this.httpClient.post<ApiResponse<Token>>(this.createUserUri, null)
         .subscribe(
           (apiResponse: ApiResponse<Token>) => {
             const token = apiResponse.data;
-            console.log(token);
             this.token = token;
             this.authService.token = this.token;
             try {
@@ -59,12 +58,17 @@ export class InitService {
             this.result.next(true);
           },
           error => {
+            // TODO Alert component
             console.log(error);
             this.result.next(false);
           }
         );
+
+      this.subscriptions.add(subscription);
     }
-    console.log(this.token);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

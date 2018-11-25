@@ -17,7 +17,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let subscription: Subscription;
     subscription = this.initService.getResult().subscribe((result: boolean) => {
-      console.log(result);
       this.isInitialized = result;
     });
     this.subscriptions.add(subscription);
