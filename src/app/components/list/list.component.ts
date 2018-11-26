@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnChanges, OnDestroy, Input} from '@angular/core';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {Item} from '../../entities/item';
 import {ItemService} from '../../services/item.service';
@@ -10,10 +10,13 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit, OnChanges, OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
   private items: Item[];
-  private date: string;
+  private _date: string;
+  @Input() set date(date: string) {
+    this._date = date;
+  }
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -22,16 +25,14 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-
-
-    // const subscription = this.itemService.getList()
-    //     .subscribe((items: Item[]) => {
-    //
-    //     });
-
   }
 
+  ngOnChanges() {
+    console.log('--------------------');
+    console.log('ListComponent');
+    console.log(this._date);
+    console.log('--------------------');
+  }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
