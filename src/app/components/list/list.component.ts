@@ -7,6 +7,7 @@ import {AuthService} from '../../services/auth.service';
 import {environment} from '../../../environments/environment';
 import * as moment from 'moment';
 import {ApiResponse} from '../../entities/api-response';
+import {ItemsData} from '../../entities/itemsData';
 
 @Component({
   selector: 'app-list',
@@ -66,18 +67,16 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    const countSubscription = this.itemService.getCount(this._date)
-      .subscribe((response: ApiResponse<number>) => {
+    const listSubscription = this.itemService.getList(this._date, this.page)
+      .subscribe((response: ApiResponse<ItemsData>) => {
         if (response.success) {
-          this.count = response.data;
-          console.log(this.count);
-          if (this.page === 1) {
-            
-          } else {
+          this.count = response.data.count;
+          this.items = response.data.items;
+          // TODO generate paginator
+          if (this.page > 1) {
             if (this.count > 0) {
               if (this.page * environment.defaultCountPerPage - this.count < environment.defaultCountPerPage) {
-                // OK
-                // TODO generate paginator
+
               } else {
                 const lastPage = Math.ceil(this.count / environment.defaultCountPerPage);
                 this.router.navigate([`${this._date}/${lastPage}`]);
@@ -86,12 +85,12 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
               this.router.navigate([`${this._date}`]);
             }
           }
-
-
         } else {
           // TODO Handle error
         }
       });
+
+
     this.previousDate = moment(this._date, ListComponent.dateFormat)
       .subtract(1, 'days').format(ListComponent.dateFormat);
     this.nextDate = moment(this._date, ListComponent.dateFormat)

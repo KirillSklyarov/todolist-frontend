@@ -7,6 +7,7 @@ import {ApiResponse} from '../entities/api-response';
 import {Item} from '../entities/item';
 import {AuthService} from './auth.service';
 import {Observable} from 'rxjs';
+import {ItemsData} from '../entities/itemsData';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,14 @@ export class ItemService implements OnDestroy {
 
   }
 
-  getList(date: string, page: number = 1, count: number = 10): Observable<ApiResponse<Item[]>> {
+  getList(date: string, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
     const options = {
       headers: {
         'X-AUTH-TOKEN': this.authService.token.uuid
       }
     };
 
-    return this.httpClient.get<ApiResponse<Item[]>>(
+    return this.httpClient.get<ApiResponse<ItemsData>>(
       `${this.readItemsUri}/${date}/${page}/${count}`,
       options);
   }
