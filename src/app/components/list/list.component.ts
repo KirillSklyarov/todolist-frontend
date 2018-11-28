@@ -4,6 +4,9 @@ import {Item} from '../../entities/item';
 import {ItemService} from '../../services/item.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import {environment} from '../../../environments/environment';
+import * as moment from 'moment';
+import {ApiResponse} from '../../entities/api-response';
 
 @Component({
   selector: 'app-list',
@@ -11,11 +14,37 @@ import {AuthService} from '../../services/auth.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit, OnChanges, OnDestroy {
+  private static readonly dateFormat = 'YYYY-MM-DD';
   private readonly subscriptions: Subscription = new Subscription();
-  private items: Item[];
   private _date: string;
+  private page: number = 1;
+  private items: Item[];
+  private count: number;
+
+  public previousDate: string;
+  public nextDate: string;
+
   @Input() set date(date: string) {
     this._date = date;
+  }
+
+  private validatePage(page: string): boolean {
+    return page.search(new RegExp('^[1-9]\\d*$')) > -1;
+  }
+
+  private validateCount(count: string): boolean {
+    return count.search(new RegExp('^[1-9]\\d*$')) > -1 &&
+      Number(count) <= environment.maxCountPerPage;
+  }
+
+  private getPage(page: string): number {
+    if (page === undefined) {
+      return 1;
+    } else if (this.validatePage(page)) {
+      return Number(page);
+    }
+
+    throw new Error();
   }
 
   constructor(private route: ActivatedRoute,
@@ -25,15 +54,56 @@ export class ListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    const parameterSub = this.route.params.subscribe(params => {
+      try {
+        this.page = this.getPage(params['page']);
+      } catch (e) {
+        this.router.navigate([this._date]);
+        return;
+      }
+    });
+    this.subscriptions.add(parameterSub);
   }
 
   ngOnChanges() {
-    console.log('--------------------');
-    console.log('ListComponent');
-    console.log(this._date);
-    console.log('--------------------');
+    const countSubscription = this.itemService.getCount(this._date)
+      .subscribe((response: ApiResponse<number>) => {
+        if (response.success) {
+          this.count = response.data;
+          console.log(this.count);
+          if (this.page === 1) {
+            
+          } else {
+            if (this.count > 0) {
+              if (this.page * environment.defaultCountPerPage - this.count < environment.defaultCountPerPage) {
+                // OK
+                // TODO generate paginator
+              } else {
+                const lastPage = Math.ceil(this.count / environment.defaultCountPerPage);
+                this.router.navigate([`${this._date}/${lastPage}`]);
+              }
+            } else {
+              this.router.navigate([`${this._date}`]);
+            }
+          }
+
+
+        } else {
+          // TODO Handle error
+        }
+      });
+    this.previousDate = moment(this._date, ListComponent.dateFormat)
+      .subtract(1, 'days').format(ListComponent.dateFormat);
+    this.nextDate = moment(this._date, ListComponent.dateFormat)
+      .add(1, 'days').format(ListComponent.dateFormat);
+
   }
+
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  public toDate(date: string) {
+    this.router.navigate([date]);
   }
 }

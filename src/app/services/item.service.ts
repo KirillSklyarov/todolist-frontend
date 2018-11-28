@@ -12,8 +12,8 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class ItemService implements OnDestroy {
-  // private readonly subscriptions: Subscription = new Subscription();
   private readonly readItemsUri = environment.apiServer + '/api/v1/item/read';
+  private readonly readItemsCountUrl = environment.apiServer + '/api/v1/item/count';
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {
 
@@ -26,7 +26,21 @@ export class ItemService implements OnDestroy {
       }
     };
 
-    return this.httpClient.get<ApiResponse<Item[]>>(this.readItemsUri, options);
+    return this.httpClient.get<ApiResponse<Item[]>>(
+      `${this.readItemsUri}/${date}/${page}/${count}`,
+      options);
+  }
+
+  getCount(date: string): Observable<ApiResponse<number>> {
+    const options = {
+      headers: {
+        'X-AUTH-TOKEN': this.authService.token.uuid
+      }
+    };
+
+    return this.httpClient.get<ApiResponse<number>>(
+      `${this.readItemsCountUrl}/${date}`,
+      options);
   }
 
   ngOnDestroy() {
