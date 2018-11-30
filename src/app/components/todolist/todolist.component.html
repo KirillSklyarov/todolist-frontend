@@ -1,6 +1,17 @@
 <p>
   todolist works!
 </p>
+<button (click)="toDate(previousDate)">prev</button>
+<p>
+  list works!
+</p>
 <div>
-  <app-list [date]="date"></app-list>
+  <ul *ngIf="items">
+    <li *ngFor="let item of items">{{item.title}}</li>
+  </ul>
+  <ul *ngIf="paginators">
+    <li *ngFor="let paginator of paginators">{{paginator.name}}</li>
+  </ul>
 </div>
+<button (click)="toDate(nextDate)">next</button>
+
