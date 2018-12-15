@@ -159,6 +159,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
         if (response.success) {
           this.count = response.data.count;
           this.items = response.data.items;
+          this.generatePaginator();
+
           // TODO generate paginator
           if (this.page > 1) {
             if (this.count > 0) {
