@@ -3,6 +3,7 @@
   <ul *ngIf="items">
     <li *ngFor="let item of items">{{item.title}}</li>
   </ul>
+  <button (click)="openCreate()">Добавить</button>
   <ul *ngIf="paginators">
     <li *ngFor="let paginator of paginators">{{paginator.name}}</li>
   </ul>

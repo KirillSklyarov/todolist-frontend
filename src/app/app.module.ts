@@ -6,21 +6,22 @@ import { AppComponent } from './app.component';
 import { TodolistComponent } from './components/todolist/todolist.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateitemComponent } from './components/createitem/createitem.component';
-// import { ListComponent } from './components/list/list.component';
+import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodolistComponent,
     CreateitemComponent,
-    // ListComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModalModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CreateitemComponent]
 })
 export class AppModule { }

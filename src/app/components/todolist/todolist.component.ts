@@ -9,6 +9,8 @@ import {ItemsData} from '../../entities/itemsData';
 import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
 import {Paginator} from '../../models/paginator';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {CreateitemComponent} from '../createitem/createitem.component';
 
 @Component({
   selector: 'app-todolist',
@@ -122,7 +124,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private location: Location,
-              private itemService: ItemService,) {
+              private itemService: ItemService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -184,6 +187,10 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public toDate(date: string) {
     this.router.navigate([date]);
+  }
+
+  public openCreate() {
+    const modalRef = this.modalService.open(CreateitemComponent);
   }
 
   private generatePaginator() {
