@@ -7,6 +7,7 @@ import { TodolistComponent } from './components/todolist/todolist.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateitemComponent } from './components/createitem/createitem.component';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+// import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModalModule
+    NgbModalModule,
+    // FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

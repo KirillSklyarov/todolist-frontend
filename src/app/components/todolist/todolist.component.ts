@@ -180,7 +180,10 @@ export class TodolistComponent implements OnInit, OnDestroy {
         } else {
           // TODO Handle error
         }
-      });
+      },
+        err => {
+          // TODO Handle error
+        });
 
     this.subscriptions.add(this.listSubscription);
   }
@@ -191,6 +194,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public openCreate() {
     const modalRef = this.modalService.open(CreateitemComponent);
+    console.log(this.date);
+    modalRef.componentInstance.date = this.date;
   }
 
   private generatePaginator() {

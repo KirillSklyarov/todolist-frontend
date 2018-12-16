@@ -1,3 +1,5 @@
-<p>
-  createitem works!
-</p>
+<input type="text" #title>
+<textarea #description>
+</textarea>
+<input #dateInput type="date" [value]="date">
+<button (click)="create(title.value, description.value, dateInput.value)">Добавить</button>
