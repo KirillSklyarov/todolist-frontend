@@ -11,6 +11,7 @@ import {Item} from '../../entities/item';
 import {Paginator} from '../../models/paginator';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {CreateitemComponent} from '../createitem/createitem.component';
+import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-todolist',
@@ -125,10 +126,16 @@ export class TodolistComponent implements OnInit, OnDestroy {
               private router: Router,
               private location: Location,
               private itemService: ItemService,
+              private eventService: EventService,
               private modalService: NgbModal) {
   }
 
   ngOnInit() {
+    this.eventService.createEvent.subscribe((success: boolean) => {
+      if (success) {
+        this.loadItems();
+      }
+    });
     const parameterSub = this.route.params.subscribe(params => {
       try {
         this.paginators = null;

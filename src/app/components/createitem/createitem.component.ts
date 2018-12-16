@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
+import {EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-createitem',
@@ -13,6 +14,7 @@ export class CreateitemComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
+    private eventService: EventService,
     private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
@@ -28,9 +30,11 @@ export class CreateitemComponent implements OnInit {
     console.log(item);
     this.itemService.create(item).subscribe(
       result => {
+        this.eventService.setCreate(result.success);
         this.activeModal.close();
       },
       error => {
+        this.eventService.setCreate(false);
         console.log(error);
       }
     );
