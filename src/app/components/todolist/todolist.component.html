@@ -1,12 +1,15 @@
 <button (click)="toDate(previousDate)">prev</button>
 <div>
   <ul *ngIf="items">
-    <li *ngFor="let item of items">{{item.title}}</li>
+    <li *ngFor="let item of items" (click)="description = item.description">{{item.title}}</li>
   </ul>
   <button (click)="openCreate()">Добавить</button>
   <ul *ngIf="paginators">
     <li *ngFor="let paginator of paginators">{{paginator.name}}</li>
   </ul>
+</div>
+<div>
+  {{description}}
 </div>
 <button (click)="toDate(nextDate)">next</button>
 
