@@ -70,13 +70,12 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public date: string;
   private page: number = 1;
   public items: Item[];
+  public activeItem: Item = null;
   public paginators: Paginator[];
   private count: number;
   
   public previousDate: string;
   public nextDate: string;
-
-  public description: string;
 
   private validateDate(date: string): boolean {
     return date.search(new RegExp('^\\d{4}-\\d{2}-\\d{2}$')) > -1 &&
@@ -197,7 +196,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public toDate(date: string) {
-    this.description = null;
+    this.activeItem = null;
     this.router.navigate([date]);
   }
 

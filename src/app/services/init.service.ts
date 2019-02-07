@@ -28,7 +28,7 @@ export class InitService implements OnDestroy {
 
   public init(): void {
     const result = new Subject<boolean>();
-    let savedToken: string;
+    // let savedToken: string;
     try {
       const savedToken = localStorage.getItem('token');
       // if (savedToken) {
@@ -46,8 +46,7 @@ export class InitService implements OnDestroy {
       const subscription = this.httpClient.post<ApiResponse<Token>>(this.createUserUri, null)
         .subscribe(
           (apiResponse: ApiResponse<Token>) => {
-            const token = apiResponse.data;
-            this.token = token;
+            this.token = apiResponse.data;
             this.authService.token = this.token;
             try {
               localStorage.setItem('token', JSON.stringify(this.token));

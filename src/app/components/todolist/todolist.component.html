@@ -1,15 +1,29 @@
-<button (click)="toDate(previousDate)">prev</button>
-<div>
-  <ul *ngIf="items">
-    <li *ngFor="let item of items" (click)="description = item.description">{{item.title}}</li>
-  </ul>
-  <button (click)="openCreate()">Добавить</button>
-  <ul *ngIf="paginators">
-    <li *ngFor="let paginator of paginators">{{paginator.name}}</li>
-  </ul>
+<div class="d-flex justify-content-between">
+  <div w-10>
+    <button (click)="toDate(previousDate)">prev</button>
+  </div>
+  <div class="d-flex justify-content-between w-80">
+    <div class="w-50">
+      <ul *ngIf="items" class="list-group">
+        <li *ngFor="let item of items" (click)="activeItem = item" class="list-group-item list-group-item-action pointer"
+            [ngClass]="{'active': activeItem === item}">
+          {{item.title}}
+        </li>
+      </ul>
+      <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
+      <ul *ngIf="paginators" class="pagination">
+        <li *ngFor="let paginator of paginators" class="page-item">
+          <span class="page-link">{{paginator.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="w-50">
+      {{activeItem?.description}}
+    </div>
+  </div>
+  <div w-10>
+    <button (click)="toDate(nextDate)">next</button>
+  </div>
 </div>
-<div>
-  {{description}}
-</div>
-<button (click)="toDate(nextDate)">next</button>
+
 
