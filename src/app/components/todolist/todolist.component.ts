@@ -7,7 +7,7 @@ import {ApiResponse} from '../../entities/api-response';
 import {ItemsData} from '../../entities/itemsData';
 import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CreateitemComponent} from '../createitem/createitem.component';
 import {EventService} from '../../services/event.service';
 import {HelperService} from '../../services/helper.service';
@@ -23,13 +23,10 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public date: Date = new Date();
   public page: number = 1;
-  private countPerPage: number;
+  private countPerPage: number = 10;
   public items: Item[] = [];
   public activeItem: Item = null;
   private count: number = 0;
-  
-  public previousDate: string;
-  public nextDate: string;
 
   constructor(private itemService: ItemService,
               private eventService: EventService,
@@ -55,15 +52,16 @@ export class TodolistComponent implements OnInit, OnDestroy {
     }
     this.listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
       .subscribe((response: ApiResponse<ItemsData>) => {
-        if (response.success) {
-          this.count = response.data.count;
-          this.items = response.data.items;
-          console.log(response.data);
+          if (response.success) {
+            this.activeItem = null;
+            this.count = response.data.count;
+            this.items = response.data.items;
+            console.log(response.data);
 
-        } else {
-          // TODO Handle error
-        }
-      },
+          } else {
+            // TODO Handle error
+          }
+        },
         err => {
           // TODO Handle error
         });
@@ -76,8 +74,11 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.loadItems();
   }
 
-  public toDate(date: string) {
-    this.activeItem = null;
+  public stepDate(days: number) {
+    this.date.setDate(this.date.getDate() + days);
+    this.page = 1;
+    this.loadItems();
+    // console.log(this.date);
   }
 
   public openCreate() {
