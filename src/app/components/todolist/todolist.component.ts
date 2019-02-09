@@ -1,8 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import * as moment from 'moment';
 import {ApiResponse} from '../../entities/api-response';
 import {ItemsData} from '../../entities/itemsData';
 import {ItemService} from '../../services/item.service';
