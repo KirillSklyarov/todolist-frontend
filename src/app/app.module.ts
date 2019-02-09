@@ -4,9 +4,11 @@ import {HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TodolistComponent } from './components/todolist/todolist.component';
-import { AppRoutingModule } from './app-routing.module';
+// import { AppRoutingModule } from './app-routing.module';
 import { CreateitemComponent } from './components/createitem/createitem.component';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalModule, NgbTabsetModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './components/profile/profile.component';
+
 // import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -14,12 +16,15 @@ import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
     AppComponent,
     TodolistComponent,
     CreateitemComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
+    // AppRoutingModule,
     NgbModalModule,
+    NgbTabsetModule,
+    NgbPaginationModule,
     // FormsModule
   ],
   providers: [],

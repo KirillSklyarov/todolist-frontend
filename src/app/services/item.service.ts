@@ -9,6 +9,7 @@ import {AuthService} from './auth.service';
 import {Observable} from 'rxjs';
 import {ItemsData} from '../entities/itemsData';
 import {CreateData} from '../entities/createData';
+import {HelperService} from './helper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,35 +19,39 @@ export class ItemService implements OnDestroy {
   private readonly readItemsCountUrl = environment.apiServer + '/api/v1/item/count';
   private readonly createItemUrl = environment.apiServer + '/api/v1/item/create';
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
+  constructor(private httpClient: HttpClient,
+              private authService: AuthService,
+              private helper: HelperService) {
 
   }
 
-  getList(date: string, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
+  public getList(date: Date, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
     const options = {
       headers: {
         'X-AUTH-TOKEN': this.authService.token.uuid
       }
     };
+    const formattedDate = this.helper.formatDate(date);
 
     return this.httpClient.get<ApiResponse<ItemsData>>(
-      `${this.readItemsUri}/${date}/${page}/${count}`,
+      `${this.readItemsUri}/${formattedDate}/${page}/${count}`,
       options);
   }
 
-  getCount(date: string): Observable<ApiResponse<number>> {
+  public getCount(date: Date): Observable<ApiResponse<number>> {
     const options = {
       headers: {
         'X-AUTH-TOKEN': this.authService.token.uuid
       }
     };
+    const formattedDate = this.helper.formatDate(date);
 
     return this.httpClient.get<ApiResponse<number>>(
-      `${this.readItemsCountUrl}/${date}`,
+      `${this.readItemsCountUrl}/${formattedDate}`,
       options);
   }
 
-  create(item: Item): Observable<ApiResponse<CreateData>> {
+  public create(item: Item): Observable<ApiResponse<CreateData>> {
     const options = {
       headers: {
         'X-AUTH-TOKEN': this.authService.token.uuid
@@ -59,6 +64,7 @@ export class ItemService implements OnDestroy {
       options
     );
   }
+
   ngOnDestroy() {
     // this.subscriptions.unsubscribe();
   }

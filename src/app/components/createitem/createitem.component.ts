@@ -30,6 +30,7 @@ export class CreateitemComponent implements OnInit {
     console.log(item);
     this.itemService.create(item).subscribe(
       result => {
+        console.log(result);
         this.eventService.setCreate(result.success);
         this.activeModal.close();
       },

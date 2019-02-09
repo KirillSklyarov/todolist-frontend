@@ -1,3 +1,23 @@
 <div *ngIf="isInitialized">
-    <router-outlet></router-outlet>
+  <ngb-tabset [destroyOnHide]="false" #tabset>
+    <ngb-tab>
+      <ng-template ngbTabTitle>
+        Todolist
+      </ng-template>
+      <ng-template ngbTabContent>
+        <app-todolist></app-todolist>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>
+        Profile
+      </ng-template>
+      <ng-template ngbTabContent>
+        <app-profile></app-profile>
+      </ng-template>
+    </ngb-tab>
+    <div>
+      <button>Register</button>
+    </div>
+  </ngb-tabset>
 </div>

@@ -11,11 +11,11 @@
         </li>
       </ul>
       <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
-      <ul *ngIf="paginators" class="pagination">
-        <li *ngFor="let paginator of paginators" class="page-item">
-          <span class="page-link">{{paginator.name}}</span>
-        </li>
-      </ul>
+      <ngb-pagination [collectionSize]="getLastPage()"
+                      [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                      [boundaryLinks]="true">
+
+      </ngb-pagination>
     </div>
     <div class="w-50">
       {{activeItem?.description}}
