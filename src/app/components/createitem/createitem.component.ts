@@ -10,24 +10,22 @@ import {EventService} from '../../services/event.service';
   styleUrls: ['./createitem.component.css']
 })
 export class CreateitemComponent implements OnInit {
-  @Input() date;
+  @Input() formattedDate: string;
 
   constructor(
     private itemService: ItemService,
     private eventService: EventService,
     private activeModal: NgbActiveModal) { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  create(title: string, description: string, date: string) {
+  public create(title: string, description: string, date: string) {
     const item = new Item();
     item.title = title;
     item.description = description;
     item.date = date;
-    // this.itemService.create(item)
 
-    console.log(item);
     this.itemService.create(item).subscribe(
       result => {
         console.log(result);

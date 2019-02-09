@@ -11,7 +11,8 @@
         </li>
       </ul>
       <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
-      <ngb-pagination [collectionSize]="getLastPage()"
+      <ngb-pagination *ngIf="items" [collectionSize]="getLastPage() * 10"
+                      (pageChange)="toPage($event)"
                       [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false"
                       [boundaryLinks]="true">
 

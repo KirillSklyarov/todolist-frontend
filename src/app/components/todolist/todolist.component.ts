@@ -10,6 +10,7 @@ import {Item} from '../../entities/item';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {CreateitemComponent} from '../createitem/createitem.component';
 import {EventService} from '../../services/event.service';
+import {HelperService} from '../../services/helper.service';
 
 @Component({
   selector: 'app-todolist',
@@ -25,14 +26,15 @@ export class TodolistComponent implements OnInit, OnDestroy {
   private countPerPage: number;
   public items: Item[] = [];
   public activeItem: Item = null;
-  private count: number;
+  private count: number = 0;
   
   public previousDate: string;
   public nextDate: string;
 
   constructor(private itemService: ItemService,
               private eventService: EventService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private helper: HelperService) {
   }
 
   ngOnInit() {
@@ -56,15 +58,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
         if (response.success) {
           this.count = response.data.count;
           this.items = response.data.items;
-
-          if (this.page > 1) {
-            if (this.count > 0) {
-              if (this.page * this.countPerPage - this.count >= this.countPerPage) {
-                const lastPage = this.getLastPage();
-              }
-            } else {
-            }
-          }
+          console.log(response.data);
 
         } else {
           // TODO Handle error
@@ -77,14 +71,18 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.listSubscription);
   }
 
+  public toPage(page) {
+    this.page = page;
+    this.loadItems();
+  }
+
   public toDate(date: string) {
     this.activeItem = null;
   }
 
   public openCreate() {
     const modalRef = this.modalService.open(CreateitemComponent);
-    console.log(this.date);
-    modalRef.componentInstance.date = this.date;
+    modalRef.componentInstance.formattedDate = this.helper.formatDate(this.date);
   }
 
   public getLastPage(): number {
