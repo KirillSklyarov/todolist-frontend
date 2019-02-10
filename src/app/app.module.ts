@@ -31,6 +31,6 @@ import { RegisterComponent } from './components/register/register.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CreateitemComponent]
+  entryComponents: [CreateitemComponent, RegisterComponent]
 })
 export class AppModule { }

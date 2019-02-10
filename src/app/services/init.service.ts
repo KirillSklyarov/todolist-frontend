@@ -12,9 +12,10 @@ import {ApiResponse} from '../entities/api-response';
   providedIn: 'root'
 })
 export class InitService implements OnDestroy {
+  private static readonly createUserUri = environment.apiServer + '/api/v1/user/create';
+
   // private readonly apiServer = environment.apiServer;
   private readonly result: Subject<boolean> = new Subject<boolean>();
-  private readonly createUserUri = environment.apiServer + '/api/v1/user/create';
   private readonly subscriptions: Subscription = new Subscription();
   private token: Token;
 
@@ -43,7 +44,7 @@ export class InitService implements OnDestroy {
       this.authService.token = this.token;
       this.result.next(true);
     } else {
-      const subscription = this.httpClient.post<ApiResponse<Token>>(this.createUserUri, null)
+      const subscription = this.httpClient.post<ApiResponse<Token>>(InitService.createUserUri, null)
         .subscribe(
           (apiResponse: ApiResponse<Token>) => {
             this.token = apiResponse.data;
@@ -67,7 +68,7 @@ export class InitService implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 }

@@ -1,7 +1,9 @@
 import {Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterContentInit, AfterViewInit} from '@angular/core';
 import {InitService} from './services/init.service';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {Router} from '@angular/router';
+import {CreateitemComponent} from './components/createitem/createitem.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {RegisterComponent} from './components/register/register.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('panel') public panel: ElementRef;
   @ViewChild('tabsetWrapper') public tabsetWrapper: ElementRef;
 
-  constructor(private initService: InitService) {
+  constructor(private initService: InitService,
+              private modalService: NgbModal,
+  ) {
 
   }
 
@@ -38,6 +42,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   public openRegister() {
+    const modalRef = this.modalService.open(RegisterComponent);
+
     console.log('Open register');
   }
 

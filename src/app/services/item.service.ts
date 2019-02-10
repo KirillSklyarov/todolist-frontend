@@ -1,12 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Subscription} from 'rxjs/internal/Subscription';
+import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
 import {ApiResponse} from '../entities/api-response';
 import {Item} from '../entities/item';
 import {AuthService} from './auth.service';
-import {Observable} from 'rxjs';
 import {ItemsData} from '../entities/itemsData';
 import {CreateData} from '../entities/createData';
 import {HelperService} from './helper.service';
@@ -15,14 +14,13 @@ import {HelperService} from './helper.service';
   providedIn: 'root'
 })
 export class ItemService implements OnDestroy {
-  private readonly readItemsUri = environment.apiServer + '/api/v1/item/read';
-  private readonly readItemsCountUrl = environment.apiServer + '/api/v1/item/count';
-  private readonly createItemUrl = environment.apiServer + '/api/v1/item/create';
+  private static readonly readItemsUri = environment.apiServer + '/api/v1/item/read';
+  private static readonly readItemsCountUrl = environment.apiServer + '/api/v1/item/count';
+  private static readonly createItemUrl = environment.apiServer + '/api/v1/item/create';
 
   constructor(private httpClient: HttpClient,
               private authService: AuthService,
               private helper: HelperService) {
-
   }
 
   public getList(date: Date, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
@@ -34,7 +32,7 @@ export class ItemService implements OnDestroy {
     const formattedDate = this.helper.formatDate(date);
 
     return this.httpClient.get<ApiResponse<ItemsData>>(
-      `${this.readItemsUri}/${formattedDate}/${page}/${count}`,
+      `${ItemService.readItemsUri}/${formattedDate}/${page}/${count}`,
       options);
   }
 
@@ -47,7 +45,7 @@ export class ItemService implements OnDestroy {
     const formattedDate = this.helper.formatDate(date);
 
     return this.httpClient.get<ApiResponse<number>>(
-      `${this.readItemsCountUrl}/${formattedDate}`,
+      `${ItemService.readItemsCountUrl}/${formattedDate}`,
       options);
   }
 
@@ -59,13 +57,13 @@ export class ItemService implements OnDestroy {
     };
 
     return this.httpClient.post<ApiResponse<CreateData>>(
-      this.createItemUrl,
+      ItemService.createItemUrl,
       item,
       options
     );
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     // this.subscriptions.unsubscribe();
   }
 }
