@@ -54,8 +54,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
             this.activeItem = null;
             this.count = response.data.count;
             this.items = response.data.items;
-            console.log(response.data);
-
           } else {
             // TODO Handle error
           }

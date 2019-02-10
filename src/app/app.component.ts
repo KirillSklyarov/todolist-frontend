@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterContentInit, AfterViewInit} from '@angular/core';
 import {InitService} from './services/init.service';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {Router} from '@angular/router';
@@ -8,36 +8,40 @@ import {Router} from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   public isInitialized = false;
-  public activeRoute: string;
 
-  // @ViewChild('tabset') public tabset: NgbTabset;
+  @ViewChild('panel') public panel: ElementRef;
+  @ViewChild('tabsetWrapper') public tabsetWrapper: ElementRef;
 
   constructor(private initService: InitService) {
 
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     const initServiceSubscription = this.initService.getResult().subscribe((result: boolean) => {
       this.isInitialized = result;
+
     });
 
     this.subscriptions.add(initServiceSubscription);
     this.initService.init();
   }
 
-  ngOnDestroy() {
+  public ngAfterViewInit(): void {
+    const ulTablist = this.tabsetWrapper.nativeElement.firstChild.firstChild;
+    ulTablist.appendChild(this.panel.nativeElement);
+    this.panel.nativeElement.classList.remove('hidden');
+  }
+
+
+  public openRegister() {
+    console.log('Open register');
+  }
+
+  public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  navigateTo(path: string) {
-    console.log('path: ' + path);
-  }
-
-  tabClick() {
-    console.log('tab click');
   }
 }

@@ -8,6 +8,7 @@ import { TodolistComponent } from './components/todolist/todolist.component';
 import { CreateitemComponent } from './components/createitem/createitem.component';
 import {NgbModalModule, NgbTabsetModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './components/profile/profile.component';
+import { RegisterComponent } from './components/register/register.component';
 
 // import { FormsModule } from '@angular/forms';
 
@@ -17,6 +18,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     TodolistComponent,
     CreateitemComponent,
     ProfileComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,11 @@
-<div *ngIf="isInitialized">
-  <ngb-tabset [destroyOnHide]="false" #tabset>
+<div #tabsetWrapper>
+  <ngb-tabset [destroyOnHide]="false">
     <ngb-tab>
       <ng-template ngbTabTitle>
         Todolist
       </ng-template>
       <ng-template ngbTabContent>
-        <app-todolist></app-todolist>
+        <app-todolist *ngIf="isInitialized"></app-todolist>
       </ng-template>
     </ngb-tab>
     <ngb-tab>
@@ -13,7 +13,7 @@
         Profile
       </ng-template>
       <ng-template ngbTabContent>
-        <app-profile></app-profile>
+        <app-profile *ngIf="isInitialized"></app-profile>
       </ng-template>
     </ngb-tab>
     <div>
@@ -21,3 +21,9 @@
     </div>
   </ngb-tabset>
 </div>
+
+<li class="nav-item hidden" #panel>
+  <div>
+    <button (click)="openRegister()">Register</button>
+  </div>
+</li>
