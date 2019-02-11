@@ -8,7 +8,7 @@ export class EventService {
 
   constructor() { }
 
-  setCreate(success: boolean) {
+  public setCreate(success: boolean) {
     this.createEvent.emit(success);
   }
 }

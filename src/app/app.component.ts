@@ -43,8 +43,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openRegister() {
     const modalRef = this.modalService.open(RegisterComponent);
-
-    console.log('Open register');
   }
 
   public ngOnDestroy(): void {

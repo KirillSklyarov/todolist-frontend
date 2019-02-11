@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit, Input} from '@angular/core';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
 import {EventService} from '../../services/event.service';
+import {ApiResponse} from '../../entities/api-response';
+import {CreateData} from '../../entities/createData';
 
 @Component({
   selector: 'app-createitem',
@@ -15,7 +17,8 @@ export class CreateitemComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private eventService: EventService,
-    private activeModal: NgbActiveModal) { }
+    private activeModal: NgbActiveModal) {
+  }
 
   public ngOnInit() {
   }
@@ -27,10 +30,14 @@ export class CreateitemComponent implements OnInit {
     item.date = date;
 
     this.itemService.create(item).subscribe(
-      result => {
-        console.log(result);
-        this.eventService.setCreate(result.success);
-        this.activeModal.close();
+      (response: ApiResponse<CreateData>) => {
+        console.log(response);
+        // TODO refactor
+        if (response.success) {
+          this.eventService.setCreate(response.success);
+          this.activeModal.close();
+        }
+
       },
       error => {
         this.eventService.setCreate(false);
