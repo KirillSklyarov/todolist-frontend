@@ -31,7 +31,6 @@ export class CreateitemComponent implements OnInit {
 
     this.itemService.create(item).subscribe(
       (response: ApiResponse<CreateData>) => {
-        console.log(response);
         // TODO refactor
         if (response.success) {
           this.eventService.setCreate(response.success);

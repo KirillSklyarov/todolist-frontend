@@ -23,10 +23,10 @@
 </div>
 
 <li class="nav-item hidden" #panel>
-  <div *ngIf="!token.user.isPermanent">
+  <div *ngIf="!token?.user.isPermanent">
     <button (click)="openRegister()">Register</button>
   </div>
-  <div *ngIf="token.user.isPermanent">
+  <div *ngIf="token?.user.isPermanent">
     <span>
       {{token.user.username}}
     </span>

@@ -6,29 +6,23 @@ import {Token} from '../../entities/token';
 import {TokenService} from '../../services/token.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
-import {ConnectionComponent} from '../connection/connection.component';
 import {UserComponent} from '../user/user.component';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class RegisterComponent extends UserComponent implements OnInit {
+export class LoginComponent extends UserComponent implements OnInit {
   constructor(activeModal: NgbActiveModal,
               userService: UserService) {
     super(activeModal, userService);
-    console.log('RegisterComponent constructor');
-    console.log(userService);
   }
 
   public ngOnInit(): void {
-    console.log('RegisterComponent ngOnInit');
-    console.log(this.userService);
   }
 
-  // TODO: implement search logins
-  public register(): void {
+  public login(): void {
     this.alerts = [];
     this.processing = true;
     this.userService.register(this.username, this.password)
@@ -49,6 +43,4 @@ export class RegisterComponent extends UserComponent implements OnInit {
           console.error(error);
         });
   }
-
-
 }

@@ -11,6 +11,7 @@ import { NgbModalModule, NgbTabsetModule, NgbPaginationModule,
   NgbTypeaheadModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
 
 // import { FormsModule } from '@angular/forms';
 
@@ -21,6 +22,7 @@ import { RegisterComponent } from './components/register/register.component';
     CreateitemComponent,
     ProfileComponent,
     RegisterComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,6 @@ import { RegisterComponent } from './components/register/register.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CreateitemComponent, RegisterComponent]
+  entryComponents: [CreateitemComponent, RegisterComponent, LoginComponent]
 })
 export class AppModule { }

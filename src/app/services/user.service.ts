@@ -22,7 +22,7 @@ export class UserService extends ConnectionService {
 
   constructor(httpClient: HttpClient,
               tokenService: TokenService,
-              ) {
+  ) {
     super(httpClient, tokenService);
   }
 
@@ -36,14 +36,14 @@ export class UserService extends ConnectionService {
       UserService.registerUri,
       userData,
       this.options).pipe(
-      tap(response => {
+      tap((response: ApiResponse<Token>) => {
         if (response.success) {
+          console.log(response);
           this.tokenService.setToken(response.data);
         } else {
           console.error(response.error);
         }
-      }))
-      ;
+      }));
   }
 
   public login(username: string, password: string): Observable<ApiResponse<Token>> {
@@ -56,10 +56,12 @@ export class UserService extends ConnectionService {
       UserService.loginUri,
       userData,
       this.options).pipe(
-      tap(data => {
-        console.log(data);
-      })
-    )
-      ;
+      tap((response: ApiResponse<Token>) => {
+        if (response.success) {
+          this.tokenService.setToken(response.data);
+        } else {
+          console.error(response.error);
+        }
+      }));
   }
 }

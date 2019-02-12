@@ -34,9 +34,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.token = this.tokenService.getToken();
+    console.log(this.token);
+
     const tokenSubscription = this.tokenService.getUpdatedToken()
       .subscribe((token: Token) => {
         this.token = token;
+        console.log(this.token);
+
       });
 
     this.subscriptions.add(initSubscription);
