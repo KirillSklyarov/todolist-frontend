@@ -12,7 +12,7 @@ import {TokenService} from './token.service';
   providedIn: 'root'
 })
 export class InitService implements OnDestroy {
-  private static readonly createUserUri = environment.apiServer + '/api/v1/user/create';
+  private static readonly createUserUri = environment.apiServer + 'api/v1/user/create';
 
   private readonly result: Subject<boolean> = new Subject<boolean>();
   private readonly subscriptions: Subscription = new Subscription();

@@ -9,25 +9,24 @@ import {User} from '../entities/user';
 import {TokenService} from './token.service';
 import {Token} from '../entities/token';
 import {tap} from 'rxjs/operators';
+import {ConnectionService} from './connection.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private static readonly registerUri = environment.apiServer + '/api/v1/user/register';
-  private static readonly loginUri = environment.apiServer + '/api/v1/user/login';
+export class UserService extends ConnectionService {
+  private static readonly userUri = `${ConnectionService.apiPath}/user`;
 
-  constructor(private httpClient: HttpClient,
-              private tokenService: TokenService,
+  private static readonly registerUri = `${UserService.userUri}/register`;
+  private static readonly loginUri = `${UserService.userUri}/login`;
+
+  constructor(httpClient: HttpClient,
+              tokenService: TokenService,
               ) {
+    super(httpClient, tokenService);
   }
 
   public register(username: string, password: string): Observable<ApiResponse<Token>> {
-    const options = {
-      headers: {
-        'X-AUTH-TOKEN': this.tokenService.getToken().uuid
-      }
-    };
     const userData = {
       username: username,
       password: password
@@ -36,7 +35,7 @@ export class UserService {
     return this.httpClient.post<ApiResponse<Token>>(
       UserService.registerUri,
       userData,
-      options).pipe(
+      this.options).pipe(
       tap(response => {
         if (response.success) {
           this.tokenService.setToken(response.data);
@@ -48,11 +47,6 @@ export class UserService {
   }
 
   public login(username: string, password: string): Observable<ApiResponse<Token>> {
-    const options = {
-      headers: {
-        'X-AUTH-TOKEN': this.tokenService.getToken().uuid
-      }
-    };
     const userData = {
       username: username,
       password: password
@@ -61,7 +55,7 @@ export class UserService {
     return this.httpClient.post<ApiResponse<Token>>(
       UserService.loginUri,
       userData,
-      options).pipe(
+      this.options).pipe(
       tap(data => {
         console.log(data);
       })

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiServer: 'http://192.168.56.101:8000',
+  apiServer: 'http://192.168.56.101:8000/',
   maxCountPerPage: 10,
   defaultCountPerPage: 10
 };
