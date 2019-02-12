@@ -5,7 +5,7 @@ import {ApiResponse} from '../../entities/api-response';
 import {Token} from '../../entities/token';
 import {TokenService} from '../../services/token.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Alert} from '../../entities/alert';
+import {Alert, Type} from '../../entities/alert';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
           console.log(response);
           this.processing = false;
           if (response.success) {
-            this.alerts.push(new Alert('success', 'Success!'));
+            this.alerts.push(new Alert(Type.primary, 'Success!'));
             setTimeout(() => {
               this.activeModal.close();
             }, 2500);
