@@ -31,4 +31,7 @@
       {{token.user.username}}
     </span>
   </div>
+  <div *ngIf="!token?.user.isPermanent">
+    <button (click)="openLogin()">Log in</button>
+  </div>
 </li>

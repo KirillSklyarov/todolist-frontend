@@ -11,8 +11,6 @@ export class UserComponent extends ConnectionComponent implements OnInit {
   constructor(activeModal: NgbActiveModal,
               protected userService: UserService) {
     super(activeModal);
-    console.log('UserComponent constructor');
-    console.log(userService);
   }
 
   public ngOnInit(): void {

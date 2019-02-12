@@ -25,12 +25,12 @@ export class LoginComponent extends UserComponent implements OnInit {
   public login(): void {
     this.alerts = [];
     this.processing = true;
-    this.userService.register(this.username, this.password)
+    this.userService.login(this.username, this.password)
       .subscribe((response: ApiResponse<Token>) => {
           console.log(response);
           this.processing = false;
           if (response.success) {
-            this.alerts.push(new Alert(Type.primary, 'Success!'));
+            this.alerts.push(new Alert(Type.primary, 'Success log in!'));
             setTimeout(() => {
               this.activeModal.close();
             }, 2500);

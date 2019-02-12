@@ -23,8 +23,6 @@ export class RegisterComponent extends UserComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log('RegisterComponent ngOnInit');
-    console.log(this.userService);
   }
 
   // TODO: implement search logins
@@ -36,7 +34,7 @@ export class RegisterComponent extends UserComponent implements OnInit {
           console.log(response);
           this.processing = false;
           if (response.success) {
-            this.alerts.push(new Alert(Type.primary, 'Success!'));
+            this.alerts.push(new Alert(Type.primary, 'Success register!'));
             setTimeout(() => {
               this.activeModal.close();
             }, 2500);

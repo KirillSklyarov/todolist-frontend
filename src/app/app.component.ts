@@ -6,6 +6,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RegisterComponent} from './components/register/register.component';
 import {TokenService} from './services/token.service';
 import {Token} from './entities/token';
+import {LoginComponent} from './components/login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -57,6 +58,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openRegister() {
     const modalRef = this.modalService.open(RegisterComponent);
+  }
+
+  public openLogin() {
+    const modalRef = this.modalService.open(LoginComponent);
   }
 
   public ngOnDestroy(): void {

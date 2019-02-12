@@ -9,7 +9,6 @@ export class ConnectionComponent implements OnInit {
   public alerts: Alert[] = [];
 
   constructor(protected activeModal: NgbActiveModal) {
-    console.log('ConnectionComponent constructor');
   }
 
   public ngOnInit(): void {
