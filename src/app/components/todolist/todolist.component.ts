@@ -9,6 +9,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CreateitemComponent} from '../createitem/createitem.component';
 import {EventService} from '../../services/event.service';
 import {HelperService} from '../../services/helper.service';
+import {TokenService} from '../../services/token.service';
+import {Token} from '../../entities/token';
 
 @Component({
   selector: 'app-todolist',
@@ -17,43 +19,54 @@ import {HelperService} from '../../services/helper.service';
 })
 export class TodolistComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
-  private listSubscription: Subscription;
 
   public date: Date = new Date();
   public page: number = 1;
-  private countPerPage: number = 10;
   public items: Item[] = [];
   public activeItem: Item = null;
+
+  private countPerPage: number = 10;
   private count: number = 0;
+  private token: Token;
 
   constructor(private itemService: ItemService,
               private eventService: EventService,
               private modalService: NgbModal,
+              private tokenService: TokenService,
               private helper: HelperService) {
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.countPerPage = environment.defaultCountPerPage;
-    this.eventService.createEvent.subscribe((success: boolean) => {
+    this.token = this.tokenService.getToken();
+    const tokenSubscription = this.tokenService.getUpdatedToken()
+      .subscribe((token: Token) => {
+        if (this.token.user.uuid !== token.user.uuid) {
+          // TODO Update items
+          this.loadItems(this.date, 1, this.countPerPage);
+        }
+        this.token = token;
+      });
+    const eventSubscription = this.eventService.createEvent.subscribe((success: boolean) => {
       if (success) {
-        this.loadItems();
+        this.loadItems(this.date, this.page, this.countPerPage);
       }
     });
 
-    this.loadItems();
+    this.subscriptions.add(tokenSubscription);
+    this.subscriptions.add(eventSubscription);
+    this.loadItems(this.date, this.page, this.countPerPage);
 
   }
 
-  private loadItems() {
-    if (this.listSubscription) {
-      this.listSubscription.unsubscribe();
-    }
-    this.listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
+  private loadItems(date: Date, page: number, countPerPage: number) {
+    const listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
       .subscribe((response: ApiResponse<ItemsData>) => {
           if (response.success) {
             this.activeItem = null;
             this.count = response.data.count;
             this.items = response.data.items;
+            this.page = page;
           } else {
             // TODO Handle error
           }
@@ -62,18 +75,16 @@ export class TodolistComponent implements OnInit, OnDestroy {
           // TODO Handle error
         });
 
-    this.subscriptions.add(this.listSubscription);
+    this.subscriptions.add(listSubscription);
   }
 
   public toPage(page) {
-    this.page = page;
-    this.loadItems();
+    this.loadItems(this.date, page, this.countPerPage);
   }
 
   public stepDate(days: number) {
     this.date.setDate(this.date.getDate() + days);
-    this.page = 1;
-    this.loadItems();
+    this.loadItems(this.date, 1, this.countPerPage);
     // console.log(this.date);
   }
 
