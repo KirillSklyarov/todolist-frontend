@@ -4,6 +4,8 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {CreateitemComponent} from './components/createitem/createitem.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RegisterComponent} from './components/register/register.component';
+import {TokenService} from './services/token.service';
+import {Token} from './entities/token';
 
 @Component({
   selector: 'app-root',
@@ -13,24 +15,32 @@ import {RegisterComponent} from './components/register/register.component';
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
-  public isInitialized = false;
+  public isInitialized: boolean = false;
+  public token: Token;
 
   @ViewChild('panel') public panel: ElementRef;
   @ViewChild('tabsetWrapper') public tabsetWrapper: ElementRef;
 
   constructor(private initService: InitService,
+              private tokenService: TokenService,
               private modalService: NgbModal,
   ) {
 
   }
 
   public ngOnInit(): void {
-    const initServiceSubscription = this.initService.getResult().subscribe((result: boolean) => {
+    const initSubscription = this.initService.getResult().subscribe((result: boolean) => {
       this.isInitialized = result;
-
     });
 
-    this.subscriptions.add(initServiceSubscription);
+    this.token = this.tokenService.getToken();
+    const tokenSubscription = this.tokenService.getUpdatedToken()
+      .subscribe((token: Token) => {
+        this.token = token;
+      });
+
+    this.subscriptions.add(initSubscription);
+    this.subscriptions.add(tokenSubscription);
     this.initService.init();
   }
 

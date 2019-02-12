@@ -26,4 +26,12 @@
   <div>
     <button (click)="openRegister()">Register</button>
   </div>
+  <div *ngIf="token">
+    <span *ngIf="token.user.isPermanent">
+      {{token.user.username}}
+    </span>
+    <span *ngIf="!token.user.isPermanent">
+      Unregistred user
+    </span>
+  </div>
 </li>

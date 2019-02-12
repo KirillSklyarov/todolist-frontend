@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Token} from '../entities/token';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
   private token: Token;
+  private readonly updatedToken: Subject<Token> = new Subject<Token>();
 
   constructor() {
     try {
@@ -27,10 +29,14 @@ export class TokenService {
       console.error(e.message);
     }
     this.token = token;
+    this.updatedToken.next(token);
   }
 
   public getToken(): Token|null {
     return this.token;
   }
 
+  public getUpdatedToken() {
+    return this.updatedToken;
+  }
 }

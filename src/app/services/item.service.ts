@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -13,7 +13,7 @@ import {TokenService} from './token.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService implements OnDestroy {
+export class ItemService {
   private static readonly readItemsUri = environment.apiServer + '/api/v1/item/read';
   private static readonly readItemsCountUrl = environment.apiServer + '/api/v1/item/count';
   private static readonly createItemUrl = environment.apiServer + '/api/v1/item/create';
@@ -61,9 +61,5 @@ export class ItemService implements OnDestroy {
       item,
       options
     );
-  }
-
-  public ngOnDestroy() {
-    // this.subscriptions.unsubscribe();
   }
 }
