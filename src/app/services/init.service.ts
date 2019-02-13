@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs/internal/Subscription';
@@ -11,11 +11,10 @@ import {TokenService} from './token.service';
 @Injectable({
   providedIn: 'root'
 })
-export class InitService implements OnDestroy {
+export class InitService {
   private static readonly createUserUri = environment.apiServer + 'api/v1/user/create';
 
-  private readonly result: Subject<boolean> = new Subject<boolean>();
-  private readonly subscriptions: Subscription = new Subscription();
+  private readonly initEvent: EventEmitter<boolean> = new EventEmitter();
 
   // TODO: implement date check
   private static checkDate(token: Token) {
@@ -26,38 +25,37 @@ export class InitService implements OnDestroy {
               private tokenService: TokenService) {
   }
 
-  public getResult(): Subject<boolean> {
-    return this.result;
+  public getInitEvent(): EventEmitter<boolean> {
+    return this.initEvent;
   }
 
   public init(): void {
-    const token = this.tokenService.getToken();
+    let token: Token;
+
+    token = this.tokenService.getToken();
     if (token && InitService.checkDate(token)) {
-      this.result.next(true);
+      this.tokenService.getUpdateEvent().emit(token);
+      this.initEvent.emit(true);
     } else {
-      const subscription = this.httpClient.post<ApiResponse<Token>>(InitService.createUserUri, null)
+      this.httpClient
+        .post<ApiResponse<Token>>(InitService.createUserUri, null)
         .subscribe(
           (response: ApiResponse<Token>) => {
             if (response.success) {
               this.tokenService.setToken(response.data);
-              this.result.next(true);
+              this.initEvent.emit(true);
             } else {
               // TODO Alert component
               console.error(response.error);
+              this.initEvent.emit(false);
             }
           },
-          error => {
+          (error: Error) => {
             // TODO Alert component
             console.error(error);
-            this.result.next(false);
+            this.initEvent.emit(false);
           }
         );
-
-      this.subscriptions.add(subscription);
     }
-  }
-
-  public ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 }

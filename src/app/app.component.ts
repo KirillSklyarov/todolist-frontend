@@ -24,24 +24,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private initService: InitService,
               private tokenService: TokenService,
-              private modalService: NgbModal,
-  ) {
-
-  }
+              private modalService: NgbModal) {}
 
   public ngOnInit(): void {
-    const initSubscription = this.initService.getResult().subscribe((result: boolean) => {
+    const initSubscription = this.initService.getInitEvent()
+      .subscribe((result: boolean) => {
       this.isInitialized = result;
     });
 
     this.token = this.tokenService.getToken();
-    console.log(this.token);
-
-    const tokenSubscription = this.tokenService.getUpdatedToken()
+    const tokenSubscription = this.tokenService.getUpdateEvent()
       .subscribe((token: Token) => {
         this.token = token;
-        console.log(this.token);
-
       });
 
     this.subscriptions.add(initSubscription);
@@ -54,7 +48,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     ulTablist.appendChild(this.panel.nativeElement);
     this.panel.nativeElement.classList.remove('hidden');
   }
-
 
   public openRegister() {
     const modalRef = this.modalService.open(RegisterComponent);

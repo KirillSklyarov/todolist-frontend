@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import {Token} from '../entities/token';
 import {Subject} from 'rxjs';
 
@@ -7,14 +7,11 @@ import {Subject} from 'rxjs';
 })
 export class TokenService {
   private token: Token;
-  private readonly updatedToken: Subject<Token> = new Subject<Token>();
+  private readonly updateEvent: EventEmitter<Token> = new EventEmitter<Token>();
 
   constructor() {
     try {
-      const savedToken = localStorage.getItem('token');
-      // if (savedToken) {
-      this.token = <Token>JSON.parse(savedToken);
-      // }
+      this.token = <Token>JSON.parse(localStorage.getItem('token'));
     } catch (e) {
       // TODO: alert component
       console.error(e.message);
@@ -29,14 +26,14 @@ export class TokenService {
       console.error(e.message);
     }
     this.token = token;
-    this.updatedToken.next(token);
+    this.updateEvent.emit(token);
   }
 
   public getToken(): Token|null {
     return this.token;
   }
 
-  public getUpdatedToken() {
-    return this.updatedToken;
+  public getUpdateEvent() {
+    return this.updateEvent;
   }
 }

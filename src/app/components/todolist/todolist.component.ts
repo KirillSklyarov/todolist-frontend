@@ -39,7 +39,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.countPerPage = environment.defaultCountPerPage;
     this.token = this.tokenService.getToken();
-    const tokenSubscription = this.tokenService.getUpdatedToken()
+    const tokenSubscription = this.tokenService.getUpdateEvent()
       .subscribe((token: Token) => {
         if (this.token.user.uuid !== token.user.uuid) {
           // TODO Update items
