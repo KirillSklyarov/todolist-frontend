@@ -7,7 +7,6 @@ import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CreateitemComponent} from '../createitem/createitem.component';
-import {EventService} from '../../services/event.service';
 import {HelperService} from '../../services/helper.service';
 import {TokenService} from '../../services/token.service';
 import {Token} from '../../entities/token';
@@ -30,7 +29,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
   private token: Token;
 
   constructor(private itemService: ItemService,
-              private eventService: EventService,
               private modalService: NgbModal,
               private tokenService: TokenService,
               private helper: HelperService) {
@@ -47,18 +45,14 @@ export class TodolistComponent implements OnInit, OnDestroy {
         }
         this.token = token;
       });
-    const eventSubscription = this.eventService.getCreateEvent()
-      .subscribe((success: boolean) => {
-      if (success) {
-        console.log('event!');
+
+    const createSubscription = this.itemService.getCreateEvent()
+      .subscribe((item: Item) => {
         this.loadItems(this.date, this.page, this.countPerPage);
-      }
-    });
-
+      });
     this.subscriptions.add(tokenSubscription);
-    this.subscriptions.add(eventSubscription);
+    this.subscriptions.add(createSubscription);
     this.loadItems(this.date, this.page, this.countPerPage);
-
   }
 
   private loadItems(date: Date, page: number, countPerPage: number) {
@@ -87,7 +81,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public stepDate(days: number) {
     this.date.setDate(this.date.getDate() + days);
     this.loadItems(this.date, 1, this.countPerPage);
-    // console.log(this.date);
   }
 
   public openCreate() {
@@ -98,7 +91,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public getLastPage(): number {
     return Math.ceil(this.count / this.countPerPage);
   }
-
 
   public ngOnDestroy() {
     this.subscriptions.unsubscribe();

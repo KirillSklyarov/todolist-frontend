@@ -2,7 +2,6 @@ import {Component, OnInit, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
-import {EventService} from '../../services/event.service';
 import {ApiResponse} from '../../entities/api-response';
 import {CreateData} from '../../entities/createData';
 import {ModalComponent} from '../modal/modal.component';
@@ -17,12 +16,11 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
   @Input() formattedDate: string;
 
   constructor(activeModal: NgbActiveModal,
-              private itemService: ItemService,
-              private eventService: EventService) {
+              private itemService: ItemService) {
     super(activeModal);
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
   }
 
   public create(title: string, description: string, date: string) {
@@ -36,20 +34,21 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
     this.itemService.create(item).subscribe(
       (response: ApiResponse<CreateData>) => {
         this.processing = false;
-
         // TODO refactor
         if (response.success) {
           this.alerts.push(new Alert(Type.primary, 'Success creating!'));
           setTimeout(() => {
             this.activeModal.close();
           }, 2500);
-          this.eventService.setCreate(response.success);
+          // this.eventService.setCreate(response.success);
+        } else {
+          this.processing = false;
+
         }
 
       },
       error => {
         this.processing = false;
-        this.eventService.setCreate(false);
         console.log(error);
       }
     );

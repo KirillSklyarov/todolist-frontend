@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -10,6 +10,7 @@ import {CreateData} from '../entities/createData';
 import {HelperService} from './helper.service';
 import {TokenService} from './token.service';
 import {ConnectionService} from './connection.service';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,16 @@ export class ItemService extends ConnectionService {
   private static readonly readItemsCountUrl = `${ItemService.itemUri}/count`;
   private static readonly createItemUrl = `${ItemService.itemUri}/create`;
 
+  private createEvent: EventEmitter<Item> = new EventEmitter();
+
   constructor(httpClient: HttpClient,
               tokenService: TokenService,
               private helper: HelperService) {
     super(httpClient, tokenService);
+  }
+
+  public getCreateEvent(): EventEmitter<Item> {
+    return this.createEvent;
   }
 
   public getList(date: Date, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
@@ -45,9 +52,11 @@ export class ItemService extends ConnectionService {
 
   public create(item: Item): Observable<ApiResponse<CreateData>> {
     return this.httpClient.post<ApiResponse<CreateData>>(
-      ItemService.createItemUrl,
-      item,
-      this.options
-    );
+      ItemService.createItemUrl, item, this.options)
+      .pipe(
+        tap((created: ApiResponse<CreateData>) => {
+          this.createEvent.emit(item);
+        })
+      );
   }
 }
