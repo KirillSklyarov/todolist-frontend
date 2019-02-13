@@ -47,8 +47,10 @@ export class TodolistComponent implements OnInit, OnDestroy {
         }
         this.token = token;
       });
-    const eventSubscription = this.eventService.createEvent.subscribe((success: boolean) => {
+    const eventSubscription = this.eventService.getCreateEvent()
+      .subscribe((success: boolean) => {
       if (success) {
+        console.log('event!');
         this.loadItems(this.date, this.page, this.countPerPage);
       }
     });

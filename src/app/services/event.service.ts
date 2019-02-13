@@ -4,11 +4,15 @@ import {EventEmitter, Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class EventService {
-  createEvent: EventEmitter<boolean> = new EventEmitter();
+  private createEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor() { }
 
   public setCreate(success: boolean) {
     this.createEvent.emit(success);
+  }
+
+  public getCreateEvent(): EventEmitter<boolean> {
+    return this.createEvent;
   }
 }

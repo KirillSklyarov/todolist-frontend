@@ -3,3 +3,6 @@
 </textarea>
 <input #dateInput type="date" [value]="formattedDate">
 <button (click)="create(title.value, description.value, dateInput.value)">Добавить</button>
+<p *ngFor="let alert of alerts">
+  <ngb-alert [type]="alert.type" [dismissible]="false">{{ alert.message }}</ngb-alert>
+</p>

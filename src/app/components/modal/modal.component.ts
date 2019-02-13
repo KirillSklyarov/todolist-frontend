@@ -4,7 +4,7 @@ import {UserService} from '../../services/user.service';
 import {TokenService} from '../../services/token.service';
 import {Alert} from '../../entities/alert';
 
-export class ConnectionComponent implements OnInit {
+export class ModalComponent implements OnInit {
   public processing: boolean = false;
   public alerts: Alert[] = [];
 

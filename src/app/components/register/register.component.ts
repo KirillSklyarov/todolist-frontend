@@ -6,7 +6,7 @@ import {Token} from '../../entities/token';
 import {TokenService} from '../../services/token.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
-import {ConnectionComponent} from '../connection/connection.component';
+import {ModalComponent} from '../modal/modal.component';
 import {UserComponent} from '../user/user.component';
 
 @Component({
@@ -18,8 +18,6 @@ export class RegisterComponent extends UserComponent implements OnInit {
   constructor(activeModal: NgbActiveModal,
               userService: UserService) {
     super(activeModal, userService);
-    console.log('RegisterComponent constructor');
-    console.log(userService);
   }
 
   public ngOnInit(): void {
@@ -31,7 +29,6 @@ export class RegisterComponent extends UserComponent implements OnInit {
     this.processing = true;
     this.userService.register(this.username, this.password)
       .subscribe((response: ApiResponse<Token>) => {
-          console.log(response);
           this.processing = false;
           if (response.success) {
             this.alerts.push(new Alert(Type.primary, 'Success register!'));
