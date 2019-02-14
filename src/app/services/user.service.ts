@@ -10,6 +10,7 @@ import {TokenService} from './token.service';
 import {Token} from '../entities/token';
 import {tap} from 'rxjs/operators';
 import {ConnectionService} from './connection.service';
+import {InitService} from './init.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class UserService extends ConnectionService {
 
   constructor(httpClient: HttpClient,
               tokenService: TokenService,
+              private initService: InitService
   ) {
     super(httpClient, tokenService);
   }
@@ -73,8 +75,10 @@ export class UserService extends ConnectionService {
       this.options).pipe(
       tap((response: ApiResponse<null>) => {
         if (response.success) {
+          this.initService.reinit();
           console.log('success logout');
         } else {
+          this.initService.reinit();
           console.error('error logout');
         }
       }));

@@ -5,7 +5,7 @@
         Todolist
       </ng-template>
       <ng-template ngbTabContent>
-        <app-todolist *ngIf="isInitialized"></app-todolist>
+        <app-todolist *ngIf="token"></app-todolist>
       </ng-template>
     </ngb-tab>
     <ngb-tab>
@@ -13,7 +13,7 @@
         Profile
       </ng-template>
       <ng-template ngbTabContent>
-        <app-profile *ngIf="isInitialized"></app-profile>
+        <app-profile *ngIf="token"></app-profile>
       </ng-template>
     </ngb-tab>
     <div>

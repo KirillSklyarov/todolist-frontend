@@ -39,11 +39,13 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.token = this.tokenService.getToken();
     const tokenSubscription = this.tokenService.getUpdateEvent()
       .subscribe((token: Token) => {
-        if (this.token.user.uuid !== token.user.uuid) {
-          // TODO Update items
-          this.loadItems(this.date, 1, this.countPerPage);
+        if (token) {
+          if (this.token.user.uuid !== token.user.uuid) {
+            // TODO Update items
+            this.loadItems(this.date, 1, this.countPerPage);
+          }
+          this.token = token;
         }
-        this.token = token;
       });
 
     const createSubscription = this.itemService.getCreateEvent()
@@ -68,6 +70,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
           }
         },
         err => {
+          console.log('Error');
+          console.log(err);
           // TODO Handle error
         });
 

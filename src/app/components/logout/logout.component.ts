@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserComponent} from '../user/user.component';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '../../services/user.service';
@@ -13,7 +13,7 @@ import {TokenService} from '../../services/token.service';
   styleUrls: ['./logout.component.css']
 })
 export class LogoutComponent extends UserComponent implements OnInit {
-  public token: Token;
+  @Input() public token: Token;
   public mainAlert: Alert = new Alert();
 
   constructor(activeModal: NgbActiveModal,
@@ -27,12 +27,6 @@ export class LogoutComponent extends UserComponent implements OnInit {
     if (this.token) {
       this.setMainAlert();
     }
-    const subscription = this.tokenService.getUpdateEvent()
-      .subscribe((token: Token) => {
-        this.token = token;
-        this.setMainAlert();
-      });
-    this.subscriptions.add(subscription);
   }
 
   public yes() {
@@ -62,7 +56,7 @@ export class LogoutComponent extends UserComponent implements OnInit {
   }
 
   private setMainAlert() {
-    this.mainAlert.message = this.token.user.isPermanent ?
+    this.mainAlert.message = this.token && this.token.user.isPermanent ?
       'Are you sure to log out?' :
       'Are you sure to purge todolist';
   }

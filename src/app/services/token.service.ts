@@ -6,21 +6,19 @@ import {Subject} from 'rxjs';
   providedIn: 'root'
 })
 export class TokenService {
-  private token: Token;
+  private token: Token|null;
   private readonly updateEvent: EventEmitter<Token> = new EventEmitter<Token>();
 
   constructor() {
-    try {
-      this.token = <Token>JSON.parse(localStorage.getItem('token'));
-    } catch (e) {
-      // TODO: alert component
-      console.error(e.message);
-    }
   }
 
-  public setToken(token: Token) {
+  public setToken(token: Token|null) {
     try {
-      localStorage.setItem('token', JSON.stringify(token));
+      if (token) {
+        localStorage.setItem('token', JSON.stringify(token));
+      } else {
+        localStorage.removeItem('token');
+      }
     } catch (e) {
       // TODO: alert component
       console.error(e.message);

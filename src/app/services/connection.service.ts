@@ -25,7 +25,9 @@ export class ConnectionService {
     this.options.headers['X-AUTH-TOKEN'] = this.tokenService.getToken().uuid;
     this.tokenService.getUpdateEvent()
       .subscribe((token: Token) => {
-        this.options.headers['X-AUTH-TOKEN'] = token.uuid;
+        if (token) {
+          this.options.headers['X-AUTH-TOKEN'] = token.uuid;
+        }
       });
   }
 }

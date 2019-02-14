@@ -17,7 +17,7 @@ import {LogoutComponent} from './components/logout/logout.component';
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
-  public isInitialized: boolean = false;
+  // public isInitialized: boolean = false;
   public token: Token;
 
   @ViewChild('panel') public panel: ElementRef;
@@ -28,18 +28,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
               private modalService: NgbModal) {}
 
   public ngOnInit(): void {
-    const initSubscription = this.initService.getInitEvent()
-      .subscribe((result: boolean) => {
-      this.isInitialized = result;
-    });
+    // const initSubscription = this.initService.getInitEvent()
+    //   .subscribe((result: boolean) => {
+    //   this.isInitialized = result;
+    // });
 
-    this.token = this.tokenService.getToken();
+    // this.token = this.tokenService.getToken();
     const tokenSubscription = this.tokenService.getUpdateEvent()
       .subscribe((token: Token) => {
         this.token = token;
       });
 
-    this.subscriptions.add(initSubscription);
+    // this.subscriptions.add(initSubscription);
     this.subscriptions.add(tokenSubscription);
     this.initService.init();
   }
@@ -60,6 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openLogout() {
     const modalRef = this.modalService.open(LogoutComponent);
+    modalRef.componentInstance.token = this.token;
   }
 
   public ngOnDestroy(): void {
