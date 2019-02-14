@@ -19,6 +19,7 @@ export class UserService extends ConnectionService {
 
   private static readonly registerUri = `${UserService.userUri}/register`;
   private static readonly loginUri = `${UserService.userUri}/login`;
+  private static readonly logoutUri = `${UserService.userUri}/logout`;
 
   constructor(httpClient: HttpClient,
               tokenService: TokenService,
@@ -61,6 +62,20 @@ export class UserService extends ConnectionService {
           this.tokenService.setToken(response.data);
         } else {
           console.error(response.error);
+        }
+      }));
+  }
+
+  public logout(): Observable<ApiResponse<null>> {
+    return this.httpClient.post<ApiResponse<null>>(
+      UserService.logoutUri,
+      null,
+      this.options).pipe(
+      tap((response: ApiResponse<null>) => {
+        if (response.success) {
+          console.log('success logout');
+        } else {
+          console.error('error logout');
         }
       }));
   }

@@ -27,7 +27,7 @@ export class RegisterComponent extends UserComponent implements OnInit {
   public register(): void {
     this.alerts = [];
     this.processing = true;
-    this.userService.register(this.username, this.password)
+    const subscription = this.userService.register(this.username, this.password)
       .subscribe((response: ApiResponse<Token>) => {
           this.processing = false;
           if (response.success) {
@@ -43,6 +43,8 @@ export class RegisterComponent extends UserComponent implements OnInit {
           this.processing = false;
           console.error(error);
         });
+
+    this.subscriptions.add(subscription);
   }
 
 

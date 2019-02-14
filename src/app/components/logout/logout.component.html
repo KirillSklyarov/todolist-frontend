@@ -1,0 +1,5 @@
+<div *ngIf="token">
+  <ngb-alert [type]="'danger'" [dismissible]="false">{{ mainAlert.message }}</ngb-alert>
+  <button (click)="yes()">Yes</button>
+  <button (click)="no()">No</button>
+</div>

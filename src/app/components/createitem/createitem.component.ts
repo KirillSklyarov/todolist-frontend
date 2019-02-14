@@ -31,7 +31,7 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
 
     this.alerts = [];
     this.processing = true;
-    this.itemService.create(item).subscribe(
+    const subscription = this.itemService.create(item).subscribe(
       (response: ApiResponse<CreateData>) => {
         this.processing = false;
         // TODO refactor
@@ -52,5 +52,7 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.subscriptions.add(subscription);
   }
 }

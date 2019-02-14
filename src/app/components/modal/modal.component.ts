@@ -1,12 +1,16 @@
-import { OnInit } from '@angular/core';
+import {OnDestroy, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '../../services/user.service';
 import {TokenService} from '../../services/token.service';
 import {Alert} from '../../entities/alert';
+import {Subscription} from 'rxjs';
 
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
+  protected readonly subscriptions: Subscription = new Subscription();
+
   public processing: boolean = false;
   public alerts: Alert[] = [];
+
 
   constructor(protected activeModal: NgbActiveModal) {
   }
@@ -14,4 +18,7 @@ export class ModalComponent implements OnInit {
   public ngOnInit(): void {
   }
 
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

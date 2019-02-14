@@ -34,4 +34,7 @@
   <div *ngIf="!token?.user.isPermanent">
     <button (click)="openLogin()">Log in</button>
   </div>
+  <div *ngIf="token">
+    <button (click)="openLogout()">{{token.user.isPermanent ? 'Log out' : 'Purge'}}</button>
+  </div>
 </li>

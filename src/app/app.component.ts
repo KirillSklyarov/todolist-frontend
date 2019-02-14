@@ -7,6 +7,7 @@ import {RegisterComponent} from './components/register/register.component';
 import {TokenService} from './services/token.service';
 import {Token} from './entities/token';
 import {LoginComponent} from './components/login/login.component';
+import {LogoutComponent} from './components/logout/logout.component';
 
 @Component({
   selector: 'app-root',
@@ -55,6 +56,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openLogin() {
     const modalRef = this.modalService.open(LoginComponent);
+  }
+
+  public openLogout() {
+    const modalRef = this.modalService.open(LogoutComponent);
   }
 
   public ngOnDestroy(): void {

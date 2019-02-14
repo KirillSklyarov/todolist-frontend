@@ -25,7 +25,7 @@ export class LoginComponent extends UserComponent implements OnInit {
   public login(): void {
     this.alerts = [];
     this.processing = true;
-    this.userService.login(this.username, this.password)
+    const subscription = this.userService.login(this.username, this.password)
       .subscribe((response: ApiResponse<Token>) => {
           console.log(response);
           this.processing = false;
@@ -42,5 +42,7 @@ export class LoginComponent extends UserComponent implements OnInit {
           this.processing = false;
           console.error(error);
         });
+
+    this.subscriptions.add(subscription);
   }
 }

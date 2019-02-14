@@ -12,6 +12,7 @@ import { NgbModalModule, NgbTabsetModule, NgbPaginationModule,
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 // import { FormsModule } from '@angular/forms';
 
@@ -23,6 +24,7 @@ import { LoginComponent } from './components/login/login.component';
     ProfileComponent,
     RegisterComponent,
     LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,7 @@ import { LoginComponent } from './components/login/login.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CreateitemComponent, RegisterComponent, LoginComponent]
+  entryComponents: [CreateitemComponent, RegisterComponent, LoginComponent,
+    LogoutComponent]
 })
 export class AppModule { }
