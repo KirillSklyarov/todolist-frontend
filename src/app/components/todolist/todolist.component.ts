@@ -58,7 +58,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   private loadItems(date: Date, page: number, countPerPage: number) {
-    const listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
+    const listSubscription = this.itemService.getList(this.date, page, this.countPerPage)
       .subscribe((response: ApiResponse<ItemsData>) => {
           if (response.success) {
             this.activeItem = null;
@@ -82,6 +82,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public toPage(page) {
+    console.log(page);
     this.loadItems(this.date, page, this.countPerPage);
   }
 
