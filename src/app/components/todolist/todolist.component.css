@@ -21,3 +21,11 @@ div.todolist-nav {
 div.todolist-nav > ngb-pagination {
   display: inline-block;
 }
+
+button.step {
+  color: lightgrey;
+  font-size: xx-large;
+  height: calc(100vh - 3rem - 2*0.7rem - 1px);
+  width: calc(100% - 2*0.5rem);
+  margin: 0.7rem 0.5rem;
+}
