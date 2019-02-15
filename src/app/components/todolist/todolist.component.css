@@ -14,11 +14,11 @@
   height: calc(100vh - 3rem - 1px);
 }
 
-div.todolist-nav {
+.center-wrapper {
   text-align: center;
 }
 
-div.todolist-nav > ngb-pagination {
+.center {
   display: inline-block;
 }
 
@@ -26,6 +26,18 @@ button.step {
   color: lightgrey;
   font-size: x-large;
   height: calc(100vh - 3rem - 2*0.7rem - 1px);
-  width: calc(100% - 2*0.5rem);
+  width: calc(100% - 0.5rem);
   margin: 0.7rem 0.5rem;
+}
+
+div.todolist > div:first-child > button.step {
+  margin-left: 0;
+}
+
+div.todolist > div:last-child > button.step {
+  margin-right: 0;
+}
+
+ngb-datepicker {
+  margin-top: 0.7rem;
 }
