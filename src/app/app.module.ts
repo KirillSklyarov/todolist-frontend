@@ -8,7 +8,7 @@ import { TodolistComponent } from './components/todolist/todolist.component';
 // import { AppRoutingModule } from './app-routing.module';
 import { CreateitemComponent } from './components/createitem/createitem.component';
 import { NgbModalModule, NgbTabsetModule, NgbPaginationModule,
-  NgbTypeaheadModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+  NgbTypeaheadModule, NgbAlertModule, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -29,13 +29,14 @@ import { LogoutComponent } from './components/logout/logout.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     // AppRoutingModule,
     NgbModalModule,
     NgbTabsetModule,
     NgbPaginationModule,
     NgbTypeaheadModule,
     NgbAlertModule,
-    FormsModule,
+    NgbDatepickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

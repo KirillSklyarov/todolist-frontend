@@ -1,36 +1,44 @@
 <div class="d-flex justify-content-between tab-content">
-  <div class="w-10">
-    <button class="btn btn-light step" (click)="stepDate(-1)">&lt;</button>
-  </div>
-  <div class="d-flex justify-content-between w-80">
-    <div class="d-flex align-items-between flex-column w-50">
-      <div class="todolist-content">
-        <ul *ngIf="items" class="list-group">
-          <li *ngFor="let item of items" (click)="activeItem = item" class="list-group-item list-group-item-action pointer"
-              [ngClass]="{'active': activeItem === item}">
-            {{item.title}}
-          </li>
-        </ul>
-      </div>
-      <div class="todolist-nav">
-        <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
-        <ngb-pagination *ngIf="items" [collectionSize]="getLastPage() * 10"
-                        (pageChange)="toPage($event)"
-                        [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false"
-                        [boundaryLinks]="true">
+  <div class="w-25">
+    <ngb-datepicker #dp [(ngModel)]="ngbDate" (select)="selectDate($event)">
 
-        </ngb-pagination>
-      </div>
+    </ngb-datepicker>
+  </div>
+  <div class="w-75 d-flex justify-content-between">
+    <div class="w-10">
+      <button class="btn btn-light step" (click)="stepDate(-1)">&lt;</button>
     </div>
-    <div class="w-50 description">
-      <div class="card">
-        <div class="card-body">
-          {{activeItem?.description}}
+    <div class="w-80 d-flex justify-content-between">
+      <div class="w-50 d-flex align-items-between flex-column">
+        <div class="todolist-content">
+          <ul *ngIf="items" class="list-group">
+            <li *ngFor="let item of items" (click)="activeItem = item"
+                class="list-group-item list-group-item-action pointer"
+                [ngClass]="{'active': activeItem === item}">
+              {{item.title}}
+            </li>
+          </ul>
+        </div>
+        <div class="todolist-nav">
+          <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
+          <ngb-pagination *ngIf="items" [collectionSize]="getLastPage() * 10"
+                          (pageChange)="toPage($event)"
+                          [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                          [boundaryLinks]="true">
+
+          </ngb-pagination>
+        </div>
+      </div>
+      <div class="w-50 description">
+        <div class="card">
+          <div class="card-body">
+            {{activeItem?.description}}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="w-10">
-    <button class="btn btn-light step" (click)="stepDate(1)">&gt;</button>
+    <div class="w-10">
+      <button class="btn btn-light step" (click)="stepDate(1)">&gt;</button>
+    </div>
   </div>
 </div>
