@@ -16,6 +16,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    document.body.style['padding-right'] = '0';
   }
 
   public ngOnDestroy(): void {

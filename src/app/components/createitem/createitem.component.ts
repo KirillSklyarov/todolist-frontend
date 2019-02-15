@@ -21,6 +21,7 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
   }
 
   public create(title: string, description: string, date: string) {

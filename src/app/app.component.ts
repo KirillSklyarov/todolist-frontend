@@ -46,6 +46,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     const ulTablist = this.tabsetWrapper.nativeElement.firstChild.firstChild;
+    console.log(ulTablist.childNodes);
+    console.log(ulTablist.childNodes[0]);
+    ulTablist.childNodes[1].style.width = '100px';
+    ulTablist.childNodes[2].style.width = '100px';
     ulTablist.appendChild(this.panel.nativeElement);
     this.panel.nativeElement.classList.remove('hidden');
   }

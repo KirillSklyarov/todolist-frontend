@@ -13,6 +13,7 @@ export class UserComponent extends ModalComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
   }
 
 }

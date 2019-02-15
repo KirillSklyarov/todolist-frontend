@@ -22,19 +22,25 @@
   </ngb-tabset>
 </div>
 
-<li class="nav-item hidden" #panel>
-  <div *ngIf="!token?.user.isPermanent">
-    <button (click)="openRegister()">Register</button>
-  </div>
-  <div *ngIf="token?.user.isPermanent">
-    <span>
-      {{token.user.username}}
-    </span>
-  </div>
-  <div *ngIf="!token?.user.isPermanent">
-    <button (click)="openLogin()">Log in</button>
-  </div>
-  <div *ngIf="token">
-    <button (click)="openLogout()">{{token.user.isPermanent ? 'Log out' : 'Purge'}}</button>
+<li class="nav-item panel hidden" #panel>
+  <div class="d-inline-flex justify-content-between w-100" *ngIf="token">
+    <div class="d-inline-flex">
+      <div *ngIf="token?.user.isPermanent">
+      <span>
+        {{token.user.username}}
+      </span>
+      </div>
+      <div *ngIf="!token?.user.isPermanent">
+        <button class="btn btn-primary" (click)="openRegister()">Register</button>
+      </div>
+      <div *ngIf="!token?.user.isPermanent">
+        <button class="btn btn-primary" (click)="openLogin()">Log in</button>
+      </div>
+    </div>
+    <div *ngIf="token">
+      <button class="btn btn-danger" (click)="openLogout()">
+        {{token.user.isPermanent ? 'Log out' : 'Purge'}}
+      </button>
+    </div>
   </div>
 </li>

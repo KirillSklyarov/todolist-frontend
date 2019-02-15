@@ -23,6 +23,7 @@ export class LogoutComponent extends UserComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
     this.token = this.tokenService.getToken();
     if (this.token) {
       this.setMainAlert();

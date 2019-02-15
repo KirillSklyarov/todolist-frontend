@@ -21,6 +21,7 @@ export class RegisterComponent extends UserComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
   }
 
   // TODO: implement search logins
