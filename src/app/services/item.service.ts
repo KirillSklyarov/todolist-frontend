@@ -21,8 +21,10 @@ export class ItemService extends ConnectionService {
   private static readonly readItemsUri = `${ItemService.itemUri}/read`;
   private static readonly readItemsCountUrl = `${ItemService.itemUri}/count`;
   private static readonly createItemUrl = `${ItemService.itemUri}/create`;
+  private static readonly deleteItemUrl = `${ItemService.itemUri}/delete`;
 
   private createEvent: EventEmitter<Item> = new EventEmitter();
+  private deleteEvent: EventEmitter<Item> = new EventEmitter();
 
   constructor(httpClient: HttpClient,
               tokenService: TokenService,
@@ -32,6 +34,10 @@ export class ItemService extends ConnectionService {
 
   public getCreateEvent(): EventEmitter<Item> {
     return this.createEvent;
+  }
+
+  public getDeleteEvent(): EventEmitter<Item> {
+    return this.deleteEvent;
   }
 
   public getList(date: Date, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
@@ -56,6 +62,16 @@ export class ItemService extends ConnectionService {
       .pipe(
         tap((created: ApiResponse<CreateData>) => {
           this.createEvent.emit(item);
+        })
+      );
+  }
+
+  public delete(item: Item): Observable<ApiResponse<null>> {
+    return this.httpClient.post<ApiResponse<null>>(
+      `${ItemService.deleteItemUrl}/${item.uuid}`, null, this.options)
+      .pipe(
+        tap((created: ApiResponse<null>) => {
+          this.deleteEvent.emit(item);
         })
       );
   }

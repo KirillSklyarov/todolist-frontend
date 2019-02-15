@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../entities/api-response';
@@ -10,6 +10,7 @@ import {CreateitemComponent} from '../createitem/createitem.component';
 import {HelperService} from '../../services/helper.service';
 import {TokenService} from '../../services/token.service';
 import {Token} from '../../entities/token';
+import {DeleteComponent} from '../delete/delete.component';
 
 @Component({
   selector: 'app-todolist',
@@ -61,8 +62,13 @@ export class TodolistComponent implements OnInit, OnDestroy {
       .subscribe((item: Item) => {
         this.loadItems();
       });
+    const deleteSubscription = this.itemService.getDeleteEvent()
+      .subscribe((item: Item) => {
+        this.loadItems();
+      });
     this.subscriptions.add(tokenSubscription);
     this.subscriptions.add(createSubscription);
+    this.subscriptions.add(deleteSubscription);
     this.loadItems();
   }
 
@@ -101,11 +107,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.loadItems();
   }
 
-  public openCreate(): void {
-    const modalRef = this.modalService.open(CreateitemComponent);
-    modalRef.componentInstance.formattedDate = this.helper.formatDate(this.date);
-  }
-
   private setDate(date: Date): void {
     this.date = date;
   }
@@ -124,13 +125,29 @@ export class TodolistComponent implements OnInit, OnDestroy {
     });
   }
 
-  // TODO
   public selectDate(date: NgbDate): void {
     this.date.setDate(date.day);
     this.date.setMonth(date.month - 1);
     this.date.setFullYear(date.year);
     this.page = 1;
     this.loadItems();
+  }
+
+  public openCreate(): void {
+    const modalRef = this.modalService.open(CreateitemComponent);
+    modalRef.componentInstance.formattedDate = this.helper.formatDate(this.date);
+  }
+
+  public selectItem(item: Item, event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.nodeName === 'LI') {
+      this.activeItem = item;
+    }
+  }
+
+  public openDelete(item: Item): void {
+    const modalRef = this.modalService.open(DeleteComponent);
+    modalRef.componentInstance.item = item;
   }
 
   public getLastPage(): number {

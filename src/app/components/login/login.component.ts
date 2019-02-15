@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {UserService} from '../../services/user.service';
 import {ApiResponse} from '../../entities/api-response';
@@ -13,7 +13,7 @@ import {UserComponent} from '../user/user.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent extends UserComponent implements OnInit {
+export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
   constructor(activeModal: NgbActiveModal,
               userService: UserService) {
     super(activeModal, userService);
@@ -31,19 +31,22 @@ export class LoginComponent extends UserComponent implements OnInit {
           console.log(response);
           this.processing = false;
           if (response.success) {
-            this.alerts.push(new Alert(Type.primary, 'Success log in!'));
-            setTimeout(() => {
-              this.activeModal.close();
-            }, 2500);
-          } else {
+            this.activeModal.close();
 
+          } else {
+            this.alerts.push(new Alert(Type.danger, 'Error'));
           }
         },
         error => {
+          this.alerts.push(new Alert(Type.danger, 'Error'));
           this.processing = false;
           console.error(error);
         });
 
     this.subscriptions.add(subscription);
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 }

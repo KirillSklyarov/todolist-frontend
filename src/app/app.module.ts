@@ -13,6 +13,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { DeleteComponent } from './components/delete/delete.component';
 
 // import { FormsModule } from '@angular/forms';
 
@@ -25,6 +26,7 @@ import { LogoutComponent } from './components/logout/logout.component';
     RegisterComponent,
     LoginComponent,
     LogoutComponent,
+    DeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,6 @@ import { LogoutComponent } from './components/logout/logout.component';
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [CreateitemComponent, RegisterComponent, LoginComponent,
-    LogoutComponent]
+    LogoutComponent, DeleteComponent]
 })
 export class AppModule { }

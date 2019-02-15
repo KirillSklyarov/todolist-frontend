@@ -4,21 +4,28 @@ import {UserService} from '../../services/user.service';
 import {TokenService} from '../../services/token.service';
 import {Alert} from '../../entities/alert';
 import {Subscription} from 'rxjs';
+import {ModalComponent} from './modal.component';
 
-export class ModalComponent implements OnInit, OnDestroy {
+export abstract class ConfirmComponent extends ModalComponent
+  implements OnInit, OnDestroy {
   protected readonly subscriptions: Subscription = new Subscription();
+  public mainAlert: Alert = new Alert();
 
-  public processing: boolean = false;
-  public alerts: Alert[] = [];
-
-
-  constructor(protected activeModal: NgbActiveModal) {
+  constructor(activeModal: NgbActiveModal) {
+    super(activeModal);
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    super.ngOnDestroy();
+  }
+
+  public abstract yes(): void;
+
+  public no(): void {
+    this.activeModal.close();
   }
 }
