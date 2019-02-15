@@ -2,10 +2,23 @@ body {
   padding-right: 0 !important;
 }
 
+ul.nav.nav-tabs {
+  height: 3rem;
+}
+
 li.no-padding {
   padding: 0;
 }
 
-li.panel {
-  width: calc(100vw - 200px);
+ul.nav.nav-tabs > li.nav-item {
+  height: 3rem;
+  width: 6rem;
+}
+
+ul.nav.nav-tabs > li.nav-item a.nav-link {
+  padding: 0.7rem;
+}
+
+ul.nav.nav-tabs > li.nav-item.panel {
+  width: calc(100vw - 12rem - 20px);
 }

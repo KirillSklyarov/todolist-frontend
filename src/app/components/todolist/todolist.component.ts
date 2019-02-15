@@ -66,11 +66,14 @@ export class TodolistComponent implements OnInit, OnDestroy {
             this.items = response.data.items;
             this.page = page;
           } else {
+
             // TODO Handle error
+            console.log('soft error');
+            console.log(response);
           }
         },
         err => {
-          console.log('Error');
+          console.log('HARD ERROR');
           console.log(err);
           // TODO Handle error
         });

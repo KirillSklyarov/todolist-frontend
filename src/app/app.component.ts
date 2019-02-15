@@ -1,4 +1,5 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterContentInit, AfterViewInit} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef,
+  AfterViewInit, ViewEncapsulation } from '@angular/core';
 import {InitService} from './services/init.service';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {CreateitemComponent} from './components/createitem/createitem.component';
@@ -12,12 +13,12 @@ import {LogoutComponent} from './components/logout/logout.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
-  // public isInitialized: boolean = false;
   public token: Token;
 
   @ViewChild('panel') public panel: ElementRef;
@@ -25,31 +26,21 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private initService: InitService,
               private tokenService: TokenService,
-              private modalService: NgbModal) {}
+              private modalService: NgbModal) {
+  }
 
   public ngOnInit(): void {
-    // const initSubscription = this.initService.getInitEvent()
-    //   .subscribe((result: boolean) => {
-    //   this.isInitialized = result;
-    // });
-
-    // this.token = this.tokenService.getToken();
     const tokenSubscription = this.tokenService.getUpdateEvent()
       .subscribe((token: Token) => {
         this.token = token;
       });
 
-    // this.subscriptions.add(initSubscription);
     this.subscriptions.add(tokenSubscription);
     this.initService.init();
   }
 
   public ngAfterViewInit(): void {
     const ulTablist = this.tabsetWrapper.nativeElement.firstChild.firstChild;
-    console.log(ulTablist.childNodes);
-    console.log(ulTablist.childNodes[0]);
-    ulTablist.childNodes[1].style.width = '100px';
-    ulTablist.childNodes[2].style.width = '100px';
     ulTablist.appendChild(this.panel.nativeElement);
     this.panel.nativeElement.classList.remove('hidden');
   }
