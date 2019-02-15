@@ -1,17 +1,26 @@
 .todolist-content {
   height: calc(100vh - 3rem - 7rem - 1.4rem - 1px);
-  margin: 0.7rem;
+  margin-top: 0.7rem;
+  margin-right: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.7rem;
   overflow-y: auto;
 }
 
 .todolist-nav {
   height: calc(7rem - 2 * 0.7rem);
-  margin: 0.7rem;
+  margin-top: 0.7rem;
+  margin-right: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.7rem;
 }
 
 .description {
-  padding: 0.7rem;
-  height: calc(100vh - 3rem - 1px);
+  margin-top: 0.7rem;
+  margin-right: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.7rem;
+  height: calc(100vh - 3rem - 2*0.7rem - 1px);
 }
 
 .center-wrapper {
