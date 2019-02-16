@@ -7,12 +7,12 @@
 
   <div class="modal-block d-flex justify-content-center">
     <div>
-      <button class="btn confirm btn-secondary" (click)="yes()"
+      <button class="btn confirm btn-success" (click)="yes()"
               [disabled]="processing">
         <span *ngIf="!processing">Yes</span>
         <span *ngIf="processing" class="spinner"></span>
       </button>
-      <button class="btn confirm btn-secondary" (click)="no()">No</button>
+      <button class="btn confirm btn-danger" (click)="no()">No</button>
     </div>
   </div>
 </div>

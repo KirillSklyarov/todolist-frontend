@@ -23,8 +23,6 @@ export class DeleteComponent extends ConfirmComponent implements OnInit, OnDestr
 
   public ngOnInit(): void {
     super.ngOnInit();
-    this.mainAlert.type = Type.danger;
-    this.mainAlert.message = `Are you sure to delete "${this.item.title}"?`
   }
 
   public yes(): void {

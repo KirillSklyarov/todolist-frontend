@@ -1,8 +1,10 @@
 <div class="d-flex justify-content-between tab-content">
   <div class="w-25 d-flex justify-content-center">
-    <ngb-datepicker #dp [(ngModel)]="ngbDate"
-                    (select)="selectDate($event)">
-    </ngb-datepicker>
+    <div>
+      <ngb-datepicker #dp [(ngModel)]="ngbDate"
+                      (select)="selectDate($event)">
+      </ngb-datepicker>
+    </div>
   </div>
   <div class="w-75 todolist d-flex justify-content-between">
     <div class="w-10">
