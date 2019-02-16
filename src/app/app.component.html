@@ -1,11 +1,11 @@
-<div #tabsetWrapper>
+<div [ngClass]="{'hidden': !(token && state === State.true)}" #tabsetWrapper>
   <ngb-tabset [destroyOnHide]="false">
     <ngb-tab>
       <ng-template ngbTabTitle>
         Todolist
       </ng-template>
       <ng-template ngbTabContent>
-        <app-todolist *ngIf="token"></app-todolist>
+        <app-todolist *ngIf="token && state === State.true"></app-todolist>
       </ng-template>
     </ngb-tab>
     <ngb-tab>
@@ -13,13 +13,37 @@
         Profile
       </ng-template>
       <ng-template ngbTabContent>
-        <app-profile *ngIf="token"></app-profile>
+        <app-profile *ngIf="token && state === State.true"></app-profile>
       </ng-template>
     </ngb-tab>
     <div>
       <button>Register</button>
     </div>
   </ngb-tabset>
+</div>
+
+<div *ngIf="!token"
+     class="d-flex justify-content-around flex-column init">
+  <div class="d-flex justify-content-center">
+    <div class="w-50 card">
+      <div class="card-body" *ngIf="state === State.processing">
+        <div class="alert alert-primary" role="alert">
+          App initialization
+        </div>
+        <div class="d-flex justify-content-center action">
+          <div class="spinner-border" role="status" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="state === State.false">
+        <div class="alert alert-danger" role="alert">
+          Initialization error
+        </div>
+        <div class="d-flex justify-content-center action">
+          <button class="btn btn-primary" (click)="reinit()">Try again</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <li class="nav-item panel hidden" #panel>

@@ -1,14 +1,13 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef,
-  AfterViewInit, ViewEncapsulation } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {InitService} from './services/init.service';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {CreateitemComponent} from './components/createitem/createitem.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RegisterComponent} from './components/register/register.component';
 import {TokenService} from './services/token.service';
 import {Token} from './entities/token';
 import {LoginComponent} from './components/login/login.component';
 import {LogoutComponent} from './components/logout/logout.component';
+import {State} from './entities/state';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,10 @@ import {LogoutComponent} from './components/logout/logout.component';
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
+  public state: State = State.false;
   public token: Token;
+  public initError: boolean = false;
+  public State;
 
   @ViewChild('panel') public panel: ElementRef;
   @ViewChild('tabsetWrapper') public tabsetWrapper: ElementRef;
@@ -27,6 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private initService: InitService,
               private tokenService: TokenService,
               private modalService: NgbModal) {
+    this.State = State;
   }
 
   public ngOnInit(): void {
@@ -35,7 +38,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.token = token;
       });
 
+    const initSubscription = this.initService.getStateEvent()
+      .subscribe((state: State) => {
+        this.state = state;
+      });
     this.subscriptions.add(tokenSubscription);
+    this.subscriptions.add(initSubscription);
     this.initService.init();
   }
 
@@ -45,17 +53,22 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.panel.nativeElement.classList.remove('hidden');
   }
 
-  public openRegister() {
+  public openRegister(): void {
     const modalRef = this.modalService.open(RegisterComponent);
   }
 
-  public openLogin() {
+  public openLogin(): void {
     const modalRef = this.modalService.open(LoginComponent);
   }
 
-  public openLogout() {
+  public openLogout(): void {
     const modalRef = this.modalService.open(LogoutComponent);
     modalRef.componentInstance.token = this.token;
+  }
+
+  public reinit(): void {
+    this.initError = false;
+    this.initService.reinit();
   }
 
   public ngOnDestroy(): void {

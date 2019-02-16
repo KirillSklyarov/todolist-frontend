@@ -18,3 +18,10 @@ ul.nav.nav-tabs > li.nav-item a.nav-link {
 ul.nav.nav-tabs > li.nav-item.panel {
   width: calc(100vw - 12rem - 20px);
 }
+.init {
+  height: 80vh;
+}
+
+.init .action {
+  height: 2.5rem;
+}
