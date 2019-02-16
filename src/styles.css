@@ -59,8 +59,6 @@ ul.paginator {
 span.spinner {
   background: url('assets/images/oval.svg');
   background-size: contain;
-  /*background-repeat: no-repeat;*/
-  /*background-position: center;*/
   width: calc(2.5rem - 2*6px);
   height: calc(2.5rem - 2*6px);
   display: inline-block;

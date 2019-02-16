@@ -24,7 +24,9 @@
           </ul>
         </div>
         <div class="todolist-nav">
-          <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
+          <div class="add d-flex justify-content-center">
+            <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Create</button>
+          </div>
           <div class="d-flex justify-content-center">
             <ngb-pagination *ngIf="items" [collectionSize]="getLastPage() * 10"
                             (pageChange)="toPage($event)"

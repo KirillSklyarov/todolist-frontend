@@ -1,9 +1,13 @@
-ul.nav.nav-tabs {
-  height: 3rem;
+.init {
+  height: 80vh;
 }
 
-li.no-padding {
-  padding: 0;
+.init .action {
+  height: 2.5rem;
+}
+
+ul.nav.nav-tabs {
+  height: 3rem;
 }
 
 ul.nav.nav-tabs > li.nav-item {
@@ -16,12 +20,22 @@ ul.nav.nav-tabs > li.nav-item a.nav-link {
 }
 
 ul.nav.nav-tabs > li.nav-item.panel {
-  width: calc(100vw - 12rem - 20px);
-}
-.init {
-  height: 80vh;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  width: calc(100vw - 12rem);
 }
 
-.init .action {
-  height: 2.5rem;
+.panel .btn {
+  width: 7rem;
 }
+
+.panel .auth div:first-child .btn {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.panel .auth div:last-child .btn {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+

@@ -22,7 +22,7 @@
   </ngb-tabset>
 </div>
 
-<div *ngIf="!token"
+<div *ngIf="!token && state !== State.true"
      class="d-flex justify-content-around flex-column init">
   <div class="d-flex justify-content-center">
     <div class="w-50 card">
@@ -46,7 +46,7 @@
   </div>
 </div>
 
-<li class="nav-item panel hidden" #panel>
+<li class="d-flex justify-content-around flex-column nav-item panel hidden" #panel>
   <div class="d-inline-flex justify-content-between w-100" *ngIf="token">
     <div class="d-inline-flex">
       <div *ngIf="token?.user.isPermanent">
@@ -54,11 +54,13 @@
         {{token.user.username}}
       </span>
       </div>
-      <div *ngIf="!token?.user.isPermanent">
-        <button class="btn btn-primary" (click)="openRegister()">Register</button>
-      </div>
-      <div *ngIf="!token?.user.isPermanent">
-        <button class="btn btn-primary" (click)="openLogin()">Log&nbsp;in</button>
+      <div class="d-inline-flex auth">
+        <div *ngIf="!token?.user.isPermanent">
+          <button class="btn btn-primary" (click)="openRegister()">Register</button>
+        </div>
+        <div *ngIf="!token?.user.isPermanent">
+          <button class="btn btn-secondary" (click)="openLogin()">Log&nbsp;in</button>
+        </div>
       </div>
     </div>
     <div *ngIf="token">

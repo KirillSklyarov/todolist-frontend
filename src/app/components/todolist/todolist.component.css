@@ -1,5 +1,5 @@
 .todolist-content {
-  height: calc(100vh - 3rem - 7rem - 1.4rem - 1px);
+  height: calc(100vh - 3rem - 7rem - 1.4rem - 0.7rem - 1px);
   margin-top: 0.7rem;
   margin-right: 0.7rem;
   margin-bottom: 0.7rem;
@@ -8,11 +8,15 @@
 }
 
 .todolist-nav {
-  height: calc(7rem - 2 * 0.7rem);
+  height: calc(7rem - 2 * 0.7rem + 0.7rem);
   margin-top: 0.7rem;
   margin-right: 0.7rem;
   margin-bottom: 0.7rem;
   margin-left: 0.7rem;
+}
+
+.todolist-nav .add {
+  margin-bottom: 0.7rem;
 }
 
 .description {
