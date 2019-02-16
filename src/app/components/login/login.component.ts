@@ -15,6 +15,7 @@ import {UserComponent} from '../user/user.component';
 })
 export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
   private static readonly connectionError = 'Connection error. Try again later';
+  private static readonly inputError = 'Input error';
   private static readonly authError = 'Wrong login or password';
   private static readonly serverError = 'Server error. Try again later';
   @ViewChild('button') public button: ElementRef;
@@ -45,6 +46,9 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
         switch (error.status) {
           case 0:
             this.alerts.push(new Alert(Type.danger, LoginComponent.connectionError));
+            break;
+          case 400:
+            this.alerts.push(new Alert(Type.danger, LoginComponent.inputError));
             break;
           case 401:
             this.alerts.push(new Alert(Type.danger, LoginComponent.authError));
