@@ -23,13 +23,7 @@
   height: calc(100vh - 3rem - 2*0.7rem - 1px);
 }
 
-.center-wrapper {
-  text-align: center;
-}
 
-.center {
-  display: inline-block;
-}
 
 button.step {
   color: lightgrey;

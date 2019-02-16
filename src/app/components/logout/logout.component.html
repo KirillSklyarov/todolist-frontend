@@ -1,7 +1,18 @@
-<div *ngIf="token">
-  <ngb-alert [type]="mainAlert.type" [dismissible]="false">
-    {{ mainAlert.message }}
-  </ngb-alert>
-  <button (click)="yes()">Yes</button>
-  <button (click)="no()">No</button>
+<div class="modal-container" *ngIf="token">
+  <div class="modal-block">
+    <ngb-alert [type]="mainAlert.type" [dismissible]="false">
+      {{ mainAlert.message }}
+    </ngb-alert>
+  </div>
+
+  <div class="modal-block center-wrapper">
+    <div class="center">
+      <button class="btn confirm btn-secondary" (click)="yes()"
+              [disabled]="processing">
+        <span *ngIf="!processing">Yes</span>
+        <span *ngIf="processing" class="spinner"></span>
+      </button>
+      <button class="btn confirm btn-secondary" (click)="no()">No</button>
+    </div>
+  </div>
 </div>

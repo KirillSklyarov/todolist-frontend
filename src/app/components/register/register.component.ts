@@ -34,7 +34,6 @@ export class RegisterComponent extends UserComponent implements OnInit, OnDestro
           if (response.success) {
             this.activeModal.close();
 
-
           } else {
             this.alerts.push(new Alert(Type.danger, 'Error'));
 

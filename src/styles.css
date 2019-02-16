@@ -2,8 +2,17 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
 /*body {*/
-  /*overflow: hidden;*/
+/*overflow: hidden;*/
 /*}*/
+
+.modal-container {
+  margin: 1rem 2rem;
+}
+
+.modal-block {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
 
 .w-10 {
   width: 10%;
@@ -27,4 +36,40 @@ div.tab-content {
 
 ul.paginator {
   margin: 0;
+}
+
+.btn.submit {
+  width: 8rem;
+  height: 2.5rem;
+}
+
+.btn.confirm {
+  width: 4rem;
+  height: 2.5rem;
+}
+
+.btn.confirm:first-child {
+  margin-right: 0.5rem;
+}
+
+.btn.confirm:last-child {
+  margin-left: 0.5rem;
+}
+
+span.spinner {
+  background: url('assets/images/oval.svg');
+  background-size: contain;
+  /*background-repeat: no-repeat;*/
+  /*background-position: center;*/
+  width: calc(2.5rem - 2*6px);
+  height: calc(2.5rem - 2*6px);
+  display: inline-block;
+}
+
+.center-wrapper {
+  text-align: center;
+}
+
+.center {
+  display: inline-block;
 }

@@ -1,11 +1,29 @@
-<label for="login-username">Login:</label>
-<input id="login-username" type="text" class="form-control" [(ngModel)]="username" />
-<label for="login-password">Password:</label>
-<input id="login-password" type="text" class="form-control" [(ngModel)]="password" />
-<button type="button" class="btn btn-secondary"
-        [ngClass]="{'disabled': processing}"
-        (click)="login()">Log in</button>
-<div [ngClass]="{'hidden': !processing}">SendingData</div>
-<p *ngFor="let alert of alerts">
-  <ngb-alert [type]="alert.type" [dismissible]="false">{{ alert.message }}</ngb-alert>
-</p>
+<div class="modal-container">
+
+  <div class="modal-block">
+    <label for="login-username">Login:</label>
+    <input id="login-username" type="text" class="form-control" [(ngModel)]="username" />
+  </div>
+
+  <div class="modal-block">
+    <label for="login-password">Password:</label>
+    <input id="login-password" type="text" class="form-control" [(ngModel)]="password" />
+  </div>
+
+  <div class="modal-block">
+    <button type="button" class="btn submit btn-secondary"
+            (click)="login()"
+            [disabled]="processing">
+      <span *ngIf="!processing">Log&nbsp;in</span>
+      <span *ngIf="processing" class="spinner"></span>
+    </button>
+  </div>
+
+  <div class="modal-block">
+    <p *ngFor="let alert of alerts">
+      <ngb-alert [type]="alert.type" [dismissible]="false">{{ alert.message }}</ngb-alert>
+    </p>
+  </div>
+
+</div>
+

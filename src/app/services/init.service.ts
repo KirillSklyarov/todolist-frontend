@@ -47,11 +47,9 @@ export class InitService {
         (response: ApiResponse<Token>) => {
           if (response.success) {
             this.tokenService.setToken(response.data);
-            // this.initEvent.emit(true);
           } else {
             // TODO Alert component
             console.error(response.error);
-            // this.initEvent.emit(false);
           }
         },
         (error: Error) => {

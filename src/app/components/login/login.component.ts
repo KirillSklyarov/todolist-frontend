@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {UserService} from '../../services/user.service';
 import {ApiResponse} from '../../entities/api-response';
@@ -14,6 +14,8 @@ import {UserComponent} from '../user/user.component';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
+  @ViewChild('button') public button: ElementRef;
+
   constructor(activeModal: NgbActiveModal,
               userService: UserService) {
     super(activeModal, userService);
@@ -31,6 +33,7 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
           console.log(response);
           this.processing = false;
           if (response.success) {
+
             this.activeModal.close();
 
           } else {

@@ -32,10 +32,12 @@ export class LogoutComponent extends ConfirmComponent implements OnInit, OnDestr
   }
 
   public yes(): void {
+    this.processing = true;
     const subscription = this.userService.logout()
       .subscribe((response: ApiResponse<Token>) => {
           this.processing = false;
           if (response.success) {
+
             this.activeModal.close();
           } else {
             this.alerts.push(new Alert(Type.danger, 'Error'));
