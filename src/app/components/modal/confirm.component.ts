@@ -23,7 +23,9 @@ export abstract class ConfirmComponent extends ModalComponent
     super.ngOnDestroy();
   }
 
-  public abstract yes(): void;
+  public yes(): void {
+    this.alerts = [];
+  }
 
   public no(): void {
     this.activeModal.close();

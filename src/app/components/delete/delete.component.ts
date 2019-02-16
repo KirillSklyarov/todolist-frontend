@@ -28,6 +28,7 @@ export class DeleteComponent extends ConfirmComponent implements OnInit, OnDestr
   }
 
   public yes(): void {
+    super.yes();
     const subscription = this.itemService.delete(this.item).subscribe(
       (response: ApiResponse<null>) => {
         this.processing = false;

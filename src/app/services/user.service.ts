@@ -72,15 +72,6 @@ export class UserService extends ConnectionService {
     return this.httpClient.post<ApiResponse<null>>(
       UserService.logoutUri,
       null,
-      this.options).pipe(
-      tap((response: ApiResponse<null>) => {
-        if (response.success) {
-          this.initService.reinit();
-          console.log('success logout');
-        } else {
-          this.initService.reinit();
-          console.error('error logout');
-        }
-      }));
+      this.options);
   }
 }
