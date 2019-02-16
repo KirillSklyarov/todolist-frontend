@@ -65,11 +65,3 @@ span.spinner {
   height: calc(2.5rem - 2*6px);
   display: inline-block;
 }
-
-.center-wrapper {
-  text-align: center;
-}
-
-.center {
-  display: inline-block;
-}

@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between tab-content">
-  <div class="w-25 center-wrapper">
-    <ngb-datepicker class="center" #dp [(ngModel)]="ngbDate"
+  <div class="w-25 d-flex justify-content-center">
+    <ngb-datepicker #dp [(ngModel)]="ngbDate"
                     (select)="selectDate($event)">
     </ngb-datepicker>
   </div>
@@ -23,14 +23,15 @@
             </li>
           </ul>
         </div>
-        <div class="todolist-nav center-wrapper">
+        <div class="todolist-nav">
           <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block">Добавить</button>
-          <ngb-pagination class="center"
-                          *ngIf="items" [collectionSize]="getLastPage() * 10"
-                          (pageChange)="toPage($event)"
-                          [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false"
-                          [boundaryLinks]="true">
-          </ngb-pagination>
+          <div class="d-flex justify-content-center">
+            <ngb-pagination *ngIf="items" [collectionSize]="getLastPage() * 10"
+                            (pageChange)="toPage($event)"
+                            [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                            [boundaryLinks]="true">
+            </ngb-pagination>
+          </div>
         </div>
       </div>
       <div class="w-50 description">
