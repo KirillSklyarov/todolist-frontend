@@ -14,6 +14,9 @@ import {UserComponent} from '../user/user.component';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
+  private static readonly connectionError = 'Connection error. Try again later';
+  private static readonly authError = 'Wrong login or password';
+  private static readonly serverError = 'Server error. Try again later';
   @ViewChild('button') public button: ElementRef;
 
   constructor(activeModal: NgbActiveModal,
@@ -30,21 +33,27 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
     this.processing = true;
     const subscription = this.userService.login(this.username, this.password)
       .subscribe((response: ApiResponse<Token>) => {
-          console.log(response);
-          this.processing = false;
-          if (response.success) {
-
-            this.activeModal.close();
-
-          } else {
-            this.alerts.push(new Alert(Type.danger, 'Error'));
-          }
-        },
-        error => {
-          this.alerts.push(new Alert(Type.danger, 'Error'));
-          this.processing = false;
-          console.error(error);
-        });
+        this.processing = false;
+        if (response.success) {
+          this.activeModal.close();
+        } else {
+          this.alerts.push(new Alert(Type.danger, LoginComponent.serverError));
+        }
+      }, (error) => {
+        console.log(error);
+        this.processing = false;
+        switch (error.status) {
+          case 0:
+            this.alerts.push(new Alert(Type.danger, LoginComponent.connectionError));
+            break;
+          case 401:
+            this.alerts.push(new Alert(Type.danger, LoginComponent.authError));
+            break;
+          default:
+            this.alerts.push(new Alert(Type.danger, LoginComponent.serverError));
+            break;
+        }
+      });
 
     this.subscriptions.add(subscription);
   }
