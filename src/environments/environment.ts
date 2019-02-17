@@ -6,7 +6,14 @@ export const environment = {
   production: false,
   apiServer: 'http://192.168.56.101:8000/',
   maxCountPerPage: 10,
-  defaultCountPerPage: 10
+  defaultCountPerPage: 10,
+  errors: {
+    connection: 'Connection error. Try again later',
+    input: 'Input error',
+    auth: 'Wrong login or password',
+    token: 'Wrong token',
+    server: 'Server error. Try again later',
+  }
 };
 
 /*

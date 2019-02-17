@@ -1,12 +1,11 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {UserService} from '../../services/user.service';
 import {ApiResponse} from '../../entities/api-response';
 import {Token} from '../../entities/token';
-import {TokenService} from '../../services/token.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
 import {UserComponent} from '../user/user.component';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +13,6 @@ import {UserComponent} from '../user/user.component';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
-  private static readonly connectionError = 'Connection error. Try again later';
-  private static readonly inputError = 'Input error';
-  private static readonly authError = 'Wrong login or password';
-  private static readonly serverError = 'Server error. Try again later';
   @ViewChild('button') public button: ElementRef;
 
   constructor(activeModal: NgbActiveModal,
@@ -38,25 +33,32 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
         if (response.success) {
           this.activeModal.close();
         } else {
-          this.alerts.push(new Alert(Type.danger, LoginComponent.serverError));
+          this.alerts.push(new Alert(Type.danger, response.error.message));
         }
-      }, (error) => {
-        console.log(error);
+      }, (response) => {
+        console.log(response);
         this.processing = false;
-        switch (error.status) {
-          case 0:
-            this.alerts.push(new Alert(Type.danger, LoginComponent.connectionError));
-            break;
-          case 400:
-            this.alerts.push(new Alert(Type.danger, LoginComponent.inputError));
-            break;
-          case 401:
-            this.alerts.push(new Alert(Type.danger, LoginComponent.authError));
-            break;
-          default:
-            this.alerts.push(new Alert(Type.danger, LoginComponent.serverError));
-            break;
+        let message: string;
+        if (response.status > 0) {
+          if (response.error.error && response.error.error.message) {
+            message = response.error.error.message;
+          } else {
+            switch (response.status) {
+              case 400:
+                message = environment.errors.input;
+                break;
+              case 401:
+                message = environment.errors.auth;
+                break;
+              default:
+                message = environment.errors.server;
+                break;
+            }
+          }
+        } else {
+          message = environment.errors.connection;
         }
+        this.alerts.push(new Alert(Type.danger, message));
       });
 
     this.subscriptions.add(subscription);

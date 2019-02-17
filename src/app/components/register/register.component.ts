@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {UserService} from '../../services/user.service';
 import {ApiResponse} from '../../entities/api-response';
 import {Token} from '../../entities/token';
-import {TokenService} from '../../services/token.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
-import {ModalComponent} from '../modal/modal.component';
 import {UserComponent} from '../user/user.component';
+import {environment} from '../../../environments/environment';
+import {InitService} from '../../services/init.service';
+
 
 @Component({
   selector: 'app-register',
@@ -15,8 +15,11 @@ import {UserComponent} from '../user/user.component';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent extends UserComponent implements OnInit, OnDestroy {
+  public requiredInit: boolean = false;
+
   constructor(activeModal: NgbActiveModal,
-              userService: UserService) {
+              userService: UserService,
+              private initService: InitService) {
     super(activeModal, userService);
   }
 
@@ -33,20 +36,48 @@ export class RegisterComponent extends UserComponent implements OnInit, OnDestro
           this.processing = false;
           if (response.success) {
             this.activeModal.close();
-
           } else {
-            this.alerts.push(new Alert(Type.danger, 'Error'));
-
+            this.alerts.push(new Alert(Type.danger, response.error.message));
           }
         },
-        error => {
-          this.alerts.push(new Alert(Type.danger, 'Error'));
-
+        response => {
+          console.error(response);
+          let message: string;
           this.processing = false;
-          console.error(error);
+          if (response.status > 0) {
+            if (response.error.error && response.error.error.message) {
+              message = response.error.error.message;
+            } else {
+              switch (response.status) {
+                case 400:
+                  message = environment.errors.input;
+                  break;
+                case 401:
+                  message = environment.errors.token;
+                  // TODO Add reinit button;
+                  break;
+                default:
+                  message = environment.errors.server;
+                  break;
+              }
+            }
+          } else {
+            message = environment.errors.connection;
+          }
+          this.alerts.push(new Alert(Type.danger, message));
+          if (response.status === 401) {
+            this.requiredInit = true;
+            this.alerts.push(new Alert(Type.danger, 'Reinitialization is required'));
+          }
         });
 
     this.subscriptions.add(subscription);
+  }
+
+  public reinit(): void {
+    this.requiredInit = false;
+    this.initService.reinit();
+    this.activeModal.close();
   }
 
   public ngOnDestroy(): void {
