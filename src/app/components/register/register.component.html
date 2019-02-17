@@ -2,12 +2,14 @@
   <div *ngIf="!requiredInit">
     <div class="modal-block">
       <label for="register-username">Login:</label>
-      <input id="register-username" type="text" class="form-control" [(ngModel)]="username" />
+      <input id="register-username" type="text" class="form-control" [(ngModel)]="username"
+             (keydown.enter)="register()"/>
     </div>
 
     <div class="modal-block">
       <label for="register-password">Password:</label>
-      <input id="register-password" type="text" class="form-control" [(ngModel)]="password" />
+      <input id="register-password" type="text" class="form-control" [(ngModel)]="password"
+             (keydown.enter)="register()"/>
     </div>
 
     <div class="modal-block">

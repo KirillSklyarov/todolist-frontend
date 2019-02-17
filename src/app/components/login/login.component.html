@@ -2,16 +2,18 @@
 
   <div class="modal-block">
     <label for="login-username">Login:</label>
-    <input id="login-username" type="text" class="form-control" [(ngModel)]="username" />
+    <input id="login-username" type="text" class="form-control" [(ngModel)]="username"
+           (keydown.enter)="login()"/>
   </div>
 
   <div class="modal-block">
     <label for="login-password">Password:</label>
-    <input id="login-password" type="text" class="form-control" [(ngModel)]="password" />
+    <input id="login-password" type="text" class="form-control" [(ngModel)]="password"
+           (keydown.enter)="login()"/>
   </div>
 
   <div class="modal-block">
-    <button type="button" class="btn submit btn-secondary"
+    <button type="button" class="btn btn-secondary submit"
             (click)="login()"
             [disabled]="processing">
       <span *ngIf="!processing">Log&nbsp;in</span>

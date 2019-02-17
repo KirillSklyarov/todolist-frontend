@@ -135,7 +135,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public openCreate(): void {
     const modalRef = this.modalService.open(CreateitemComponent);
-    modalRef.componentInstance.formattedDate = this.helper.formatDate(this.date);
+    modalRef.componentInstance.date = this.helper.formatDate(this.date);
   }
 
   public selectItem(item: Item, event: MouseEvent): void {
