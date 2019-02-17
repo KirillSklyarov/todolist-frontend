@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import {OnInit} from '@angular/core';
 import {ModalComponent} from '../modal/modal.component';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '../../services/user.service';

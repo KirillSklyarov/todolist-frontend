@@ -1,13 +1,20 @@
 <div class="modal-container">
 
   <div class="modal-block">
-    <label for="login-username">Login:</label>
-    <input id="login-username" type="text" class="form-control" [(ngModel)]="username"
-           (keydown.enter)="login()"/>
+    <label for="login-username" class="input-top">
+      <span class="input-group-text">Login</span>
+    </label>
+    <div class="input-group">
+      <input #inputLogin id="login-username" type="text" class="form-control"
+             [(ngModel)]="username"
+             (keydown.enter)="login()"/>
+    </div>
   </div>
 
   <div class="modal-block">
-    <label for="login-password">Password:</label>
+    <label for="login-password" class="input-top">
+      <span class="input-group-text">Password</span>
+    </label>
     <div class="input-group">
       <input id="login-password" type="{{isShow ? 'text' : 'password'}}"
              class="form-control" [(ngModel)]="password"

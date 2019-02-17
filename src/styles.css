@@ -88,3 +88,7 @@ span.spinner {
 .init .action, .state .action {
   height: 2.5rem;
 }
+
+.input-top {
+  margin-bottom: -1px;
+}

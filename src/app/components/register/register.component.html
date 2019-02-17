@@ -1,13 +1,19 @@
 <div class="modal-container">
   <div *ngIf="!requiredInit">
     <div class="modal-block">
-      <label for="register-username">Login:</label>
-      <input id="register-username" type="text" class="form-control" [(ngModel)]="username"
-             (keydown.enter)="register()"/>
+      <label for="register-username" class="input-top">
+        <span class="input-group-text">Login</span>
+      </label>
+      <div class="input-group">
+        <input id="register-username" type="text" class="form-control" [(ngModel)]="username"
+               (keydown.enter)="register()"/>
+      </div>
     </div>
 
     <div class="modal-block">
-      <label for="register-password">Password:</label>
+      <label for="register-password" class="input-top">
+        <span class="input-group-text">Password</span>
+      </label>
       <div class="input-group">
         <input id="register-password" type="{{isShow ? 'text' : 'password'}}"
                class="form-control" [(ngModel)]="password"

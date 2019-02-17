@@ -1,17 +1,23 @@
 <div class="modal-container">
   <div class="modal-block">
-    <label for="create-title">Title:</label>
+    <label for="create-title" class="input-top">
+      <span class="input-group-text">Title</span>
+    </label>
     <input id="create-title" class="form-control" type="text" [(ngModel)]="title"
            (keydown.enter)="create()">
   </div>
 
   <div class="modal-block">
-    <label for="create-date">Date:</label>
+    <label for="create-date" class="input-top">
+      <span class="input-group-text">Date</span>
+    </label>
     <input id="create-date" class="form-control" type="date" [(ngModel)]="date">
   </div>
 
   <div class="modal-block">
-    <label for="create-description">Description:</label>
+    <label for="create-description" class="input-top">
+      <span class="input-group-text">Date</span>
+    </label>
     <textarea id="create-description" class="form-control" [(ngModel)]="description"
               (keydown)="onDescriptionEnter($event)"></textarea>
   </div>
