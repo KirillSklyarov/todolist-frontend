@@ -8,8 +8,20 @@
 
   <div class="modal-block">
     <label for="login-password">Password:</label>
-    <input id="login-password" type="text" class="form-control" [(ngModel)]="password"
-           (keydown.enter)="login()"/>
+    <div class="input-group">
+      <input id="login-password" type="{{isShow ? 'text' : 'password'}}"
+             class="form-control password" [(ngModel)]="password"
+             aria-label="Password"
+             aria-describedby="basic-addon2"
+             (keydown.enter)="login()"/>
+      <div class="input-group-append">
+        <button class="btn input-group-text password" (click)="toggleShow()">
+          <span class="eye" [ngClass]="{'show': isShow, 'hide': !isShow}"></span>
+        </button>
+      </div>
+    </div>
+
+
   </div>
 
   <div class="modal-block">

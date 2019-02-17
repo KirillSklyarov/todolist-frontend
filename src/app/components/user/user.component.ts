@@ -6,6 +6,7 @@ import {UserService} from '../../services/user.service';
 export class UserComponent extends ModalComponent implements OnInit {
   public username: string = '';
   public password: string = '';
+  public isShow: boolean = false;
 
   constructor(activeModal: NgbActiveModal,
               protected userService: UserService) {
@@ -16,4 +17,7 @@ export class UserComponent extends ModalComponent implements OnInit {
     super.ngOnInit();
   }
 
+  public toggleShow() {
+    this.isShow = !this.isShow;
+  }
 }

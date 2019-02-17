@@ -64,6 +64,27 @@ span.spinner {
   display: inline-block;
 }
 
+.password {
+  height: calc(1.5em + 0.75rem + 2px);
+}
+
+.password > .eye {
+  background-repeat: no-repeat !important;
+  background-attachment: fixed;
+  background-position: center;
+  width: calc(2.4rem - 2*6px);
+  height: 1.75rem;
+  display: inline-block;
+}
+
+.password > .eye.show {
+  background: url('assets/images/eye-show.svg');
+}
+
+.password > .eye.hide {
+  background: url('assets/images/eye-hide.svg');
+}
+
 .init .action, .state .action {
   height: 2.5rem;
 }
