@@ -14,7 +14,8 @@
       <span class="input-group-text">Date</span>
     </label>
     <div class="input-group">
-      <input id="create-date" class="form-control" type="date" [(ngModel)]="date">
+      <input id="create-date" class="form-control" type="date" [(ngModel)]="date"
+             (keydown.enter)="create()">
     </div>
   </div>
 
