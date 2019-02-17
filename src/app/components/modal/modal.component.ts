@@ -12,7 +12,6 @@ export class ModalComponent implements OnInit, OnDestroy {
   public processing: boolean = false;
   public alerts: Alert[] = [];
 
-
   constructor(protected activeModal: NgbActiveModal) {
   }
 
