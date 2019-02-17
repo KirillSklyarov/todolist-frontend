@@ -7,6 +7,22 @@ export const environment = {
   apiServer: 'http://192.168.56.101:8000/',
   maxCountPerPage: 10,
   defaultCountPerPage: 10,
+  tokenLifetime: {
+    unregistred: {
+      seconds: 0,
+      minutes: 0,
+      hours: 0,
+      days: 30,
+      years: 0,
+    },
+    registred: {
+      seconds: 0,
+      minutes: 0,
+      hours: 0,
+      days: 30,
+      years: 0,
+    }
+  },
   errors: {
     connection: 'Connection error. Try again later',
     input: 'Input error',

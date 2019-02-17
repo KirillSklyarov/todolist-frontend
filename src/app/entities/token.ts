@@ -17,8 +17,4 @@ export class Token {
 
   @Type(() => User)
   user: User;
-
-  public getUuid(): string {
-    return this.uuid;
-  }
 }

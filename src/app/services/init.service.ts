@@ -7,6 +7,7 @@ import {ApiResponse} from '../entities/api-response';
 import {TokenService} from './token.service';
 import {AppState} from '../entities/appState';
 import {classToPlain, plainToClass, plainToClassFromExist} from 'class-transformer';
+import {DateTime} from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class InitService {
   private readonly stateEvent: EventEmitter<AppState> = new EventEmitter<AppState>();
 
 
-  // TODO: implement date check
   private static checkDate(token: Token) {
-    return true;
+    const userType = token.user.isPermanent ? 'registred' : 'unregistred';
+    return DateTime.local() < token.lastUsageAt.plus(environment.tokenLifetime[userType]);
   }
 
   constructor(private httpClient: HttpClient,
