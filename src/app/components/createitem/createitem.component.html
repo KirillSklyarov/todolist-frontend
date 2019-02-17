@@ -3,23 +3,29 @@
     <label for="create-title" class="input-top">
       <span class="input-group-text">Title</span>
     </label>
-    <input id="create-title" class="form-control" type="text" [(ngModel)]="title"
-           (keydown.enter)="create()">
+    <div class="input-group">
+      <input id="create-title" class="form-control" type="text" [(ngModel)]="title"
+             (keydown.enter)="create()">
+    </div>
   </div>
 
   <div class="modal-block">
     <label for="create-date" class="input-top">
       <span class="input-group-text">Date</span>
     </label>
-    <input id="create-date" class="form-control" type="date" [(ngModel)]="date">
+    <div class="input-group">
+      <input id="create-date" class="form-control" type="date" [(ngModel)]="date">
+    </div>
   </div>
 
   <div class="modal-block">
     <label for="create-description" class="input-top">
-      <span class="input-group-text">Date</span>
+      <span class="input-group-text">Description</span>
     </label>
-    <textarea id="create-description" class="form-control" [(ngModel)]="description"
-              (keydown)="onDescriptionEnter($event)"></textarea>
+    <div class="input-group">
+      <textarea id="create-description" class="form-control" [(ngModel)]="description"
+                (keydown)="onDescriptionEnter($event)"></textarea>
+    </div>
   </div>
 
   <div class="modal-block">

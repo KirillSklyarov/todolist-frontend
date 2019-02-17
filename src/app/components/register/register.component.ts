@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {ApiResponse} from '../../entities/api-response';
 import {Token} from '../../entities/token';
@@ -18,10 +18,9 @@ export class RegisterComponent extends UserComponent implements OnInit, OnDestro
   public requiredInit: boolean = false;
 
   constructor(activeModal: NgbActiveModal,
-              cdr: ChangeDetectorRef,
               userService: UserService,
               private initService: InitService) {
-    super(activeModal, cdr, userService);
+    super(activeModal, userService);
   }
 
   public ngOnInit(): void {
