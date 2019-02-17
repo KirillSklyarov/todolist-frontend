@@ -64,11 +64,11 @@ span.spinner {
   display: inline-block;
 }
 
-.password {
+.eye-toggle {
   height: calc(1.5em + 0.75rem + 2px);
 }
 
-.password > .eye {
+.eye-toggle > .eye {
   background-repeat: no-repeat !important;
   background-attachment: fixed;
   background-position: center;
@@ -77,11 +77,11 @@ span.spinner {
   display: inline-block;
 }
 
-.password > .eye.show {
+.eye-toggle > .eye.show {
   background: url('assets/images/eye-show.svg');
 }
 
-.password > .eye.hide {
+.eye-toggle > .eye.hide {
   background: url('assets/images/eye-hide.svg');
 }
 
