@@ -5,14 +5,14 @@ import {HttpClient} from '@angular/common/http';
 import {Token} from '../entities/token';
 import {ApiResponse} from '../entities/api-response';
 import {TokenService} from './token.service';
-import {State} from '../entities/state';
+import {AppState} from '../entities/appState';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InitService {
   private static readonly createUserUri = environment.apiServer + 'api/v1/user/create';
-  private readonly stateEvent: EventEmitter<State> = new EventEmitter<State>();
+  private readonly stateEvent: EventEmitter<AppState> = new EventEmitter<AppState>();
 
 
   // TODO: implement date check
@@ -25,7 +25,7 @@ export class InitService {
   }
 
   public init(): void {
-    this.stateEvent.emit(State.processing);
+    this.stateEvent.emit(AppState.processing);
     let token: Token;
     try {
       token = <Token>JSON.parse(localStorage.getItem('token'));
@@ -36,14 +36,14 @@ export class InitService {
 
     if (token && InitService.checkDate(token)) {
       this.tokenService.setToken(token);
-      this.stateEvent.emit(State.true);
+      this.stateEvent.emit(AppState.true);
     } else {
       this.reinit();
     }
   }
 
   public reinit(): void {
-    this.stateEvent.emit(State.processing);
+    this.stateEvent.emit(AppState.processing);
     this.tokenService.setToken(null);
     this.httpClient
       .post<ApiResponse<Token>>(InitService.createUserUri, null)
@@ -51,18 +51,18 @@ export class InitService {
         (response: ApiResponse<Token>) => {
           if (response.success) {
             this.tokenService.setToken(response.data);
-            this.stateEvent.emit(State.true);
+            this.stateEvent.emit(AppState.true);
           } else {
-            this.stateEvent.emit(State.false);
+            this.stateEvent.emit(AppState.false);
           }
         },
         (error: Error) => {
-          this.stateEvent.emit(State.false);
+          this.stateEvent.emit(AppState.false);
         }
       );
   }
 
-  public getStateEvent(): EventEmitter<State> {
+  public getStateEvent(): EventEmitter<AppState> {
     return this.stateEvent;
   }
 }

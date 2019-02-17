@@ -22,11 +22,11 @@
   </ngb-tabset>
 </div>
 
-<div *ngIf="!token && state !== State.true"
+<div *ngIf="(!token && state !== State.true)"
      class="d-flex justify-content-around flex-column init">
   <div class="d-flex justify-content-center">
     <div class="w-50 card">
-      <div class="card-body" *ngIf="state === State.processing">
+      <div class="card-body" *ngIf="(state === State.processing)">
         <div class="alert alert-primary" role="alert">
           App initialization
         </div>

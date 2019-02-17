@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../entities/api-response';
@@ -11,6 +11,9 @@ import {HelperService} from '../../services/helper.service';
 import {TokenService} from '../../services/token.service';
 import {Token} from '../../entities/token';
 import {DeleteComponent} from '../delete/delete.component';
+import {TodolistState} from '../../entities/todolistState';
+import {InitService} from '../../services/init.service';
+import {AppState} from '../../entities/appState';
 
 @Component({
   selector: 'app-todolist',
@@ -29,16 +32,22 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public page: number = 1;
   public items: Item[] = [];
   public activeItem: Item = null;
+  public TodolistState;
+  public state: TodolistState = TodolistState.processing;
   ngbDate: NgbDateStruct;
 
   constructor(private itemService: ItemService,
               private modalService: NgbModal,
               private tokenService: TokenService,
+              private initService: InitService,
               private helper: HelperService,
               private calendar: NgbCalendar) {
+    this.TodolistState = TodolistState;
+
   }
 
   public ngOnInit(): void {
+    this.state = TodolistState.processing;
     this.ngbDate = {
       day: this.date.getDate(),
       month: this.date.getMonth() + 1,
@@ -72,27 +81,34 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.loadItems();
   }
 
-  private loadItems() {
+  public loadItems() {
+    this.state = TodolistState.processing;
     this.activeItem = null;
     const listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
       .subscribe((response: ApiResponse<ItemsData>) => {
           if (response.success) {
+            this.state = TodolistState.success;
             this.count = response.data.count;
             this.items = response.data.items;
           } else {
-
+            this.state = TodolistState.serverError;
             // TODO Handle error
-            console.log('soft error');
             console.log(response);
           }
         },
-        err => {
-          console.log('HARD ERROR');
-          console.log(err);
-          // TODO Handle error
+        response => {
+          if (response.status === 401) {
+            this.state = TodolistState.authError;
+          } else {
+            this.state = TodolistState.serverError;
+          }
         });
 
     this.subscriptions.add(listSubscription);
+  }
+
+  public reinit(): void {
+    this.initService.reinit();
   }
 
   public toPage(page): void {
@@ -100,7 +116,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.loadItems();
   }
 
-  public stepDate(days: number) {
+  public stepDate(days: number): void {
     this.date.setDate(this.date.getDate() + days);
     this.page = 1;
     this.navigateTo(this.date);

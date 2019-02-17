@@ -1,4 +1,4 @@
-export enum State {
+export enum AppState {
   false,
   processing,
   true

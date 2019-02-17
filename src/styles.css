@@ -63,3 +63,7 @@ span.spinner {
   height: calc(2.5rem - 2*6px);
   display: inline-block;
 }
+
+.init .action, .state .action {
+  height: 2.5rem;
+}

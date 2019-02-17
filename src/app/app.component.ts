@@ -7,7 +7,7 @@ import {TokenService} from './services/token.service';
 import {Token} from './entities/token';
 import {LoginComponent} from './components/login/login.component';
 import {LogoutComponent} from './components/logout/logout.component';
-import {State} from './entities/state';
+import {AppState} from './entities/appState';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ import {State} from './entities/state';
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
-  public state: State = State.false;
+  public state: AppState = AppState.false;
   public token: Token;
   public initError: boolean = false;
   public State;
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private initService: InitService,
               private tokenService: TokenService,
               private modalService: NgbModal) {
-    this.State = State;
+    this.State = AppState;
   }
 
   public ngOnInit(): void {
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     const initSubscription = this.initService.getStateEvent()
-      .subscribe((state: State) => {
+      .subscribe((state: AppState) => {
         this.state = state;
       });
     this.subscriptions.add(tokenSubscription);
