@@ -42,18 +42,23 @@ export class LogoutComponent extends ConfirmComponent implements OnInit, OnDestr
       this.processing = true;
       const subscription = this.userService.logout()
         .subscribe((response: ApiResponse<Token>) => {
-            this.processing = false;
-            if (response.success) {
-              this.initService.reinit();
-              this.activeModal.close();
-            } else {
-              this.setError();
-            }
-          },
-          error => {
-            this.processing = false;
+          this.processing = false;
+          if (response.success) {
+            this.initService.reinit();
+            this.activeModal.close();
+          } else {
             this.setError();
-          });
+          }
+        }, response => {
+          this.processing = false;
+          if (response.status === 401) {
+            this.initService.reinit();
+            this.activeModal.close();
+            return;
+          }
+
+          this.setError();
+        });
 
       this.subscriptions.add(subscription);
     }
