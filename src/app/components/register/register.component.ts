@@ -55,7 +55,6 @@ export class RegisterComponent extends UserComponent implements OnInit, OnDestro
                     break;
                   case 401:
                     message = environment.errors.token;
-                    // TODO Add reinit button;
                     break;
                   default:
                     message = environment.errors.server;
