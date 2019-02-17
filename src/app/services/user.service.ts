@@ -11,6 +11,7 @@ import {Token} from '../entities/token';
 import {tap} from 'rxjs/operators';
 import {ConnectionService} from './connection.service';
 import {InitService} from './init.service';
+import {plainToClassFromExist} from 'class-transformer';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,8 @@ export class UserService extends ConnectionService {
       UserService.registerUri,
       userData,
       this.options).pipe(
-      tap((response: ApiResponse<Token>) => {
+      tap((apiResponse: ApiResponse<Token>) => {
+        const response = plainToClassFromExist(new ApiResponse<Token>(Token), apiResponse);
         if (response.success) {
           console.log(response);
           this.tokenService.setToken(response.data);
@@ -59,7 +61,8 @@ export class UserService extends ConnectionService {
       UserService.loginUri,
       userData,
       this.options).pipe(
-      tap((response: ApiResponse<Token>) => {
+      tap((apiResponse: ApiResponse<Token>) => {
+        const response = plainToClassFromExist(new ApiResponse<Token>(Token), apiResponse);
         if (response.success) {
           this.tokenService.setToken(response.data);
         } else {

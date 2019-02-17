@@ -6,6 +6,7 @@ import {Token} from '../entities/token';
 import {ApiResponse} from '../entities/api-response';
 import {TokenService} from './token.service';
 import {AppState} from '../entities/appState';
+import {classToPlain, plainToClass, plainToClassFromExist} from 'class-transformer';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +29,8 @@ export class InitService {
     this.stateEvent.emit(AppState.processing);
     let token: Token;
     try {
-      token = <Token>JSON.parse(localStorage.getItem('token'));
+      token = plainToClass(Token, JSON.parse(localStorage.getItem('token')) as Token);
     } catch (e) {
-      // TODO: alert component
       console.error(e.message);
     }
 
@@ -47,16 +47,15 @@ export class InitService {
     this.tokenService.setToken(null);
     this.httpClient
       .post<ApiResponse<Token>>(InitService.createUserUri, null)
-      .subscribe(
-        (response: ApiResponse<Token>) => {
-          if (response.success) {
+      .subscribe((apiResponse: ApiResponse<Token>) => {
+        const response = plainToClassFromExist(new ApiResponse<Token>(Token), apiResponse);
+        if (response.success) {
             this.tokenService.setToken(response.data);
             this.stateEvent.emit(AppState.true);
           } else {
             this.stateEvent.emit(AppState.false);
           }
-        },
-        (error: Error) => {
+        }, (error: Error) => {
           this.stateEvent.emit(AppState.false);
         }
       );

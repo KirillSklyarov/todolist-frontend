@@ -8,6 +8,8 @@ import {ModalComponent} from '../modal/modal.component';
 import {Alert, Type} from '../../entities/alert';
 import {environment} from '../../../environments/environment';
 import {InitService} from '../../services/init.service';
+import {plainToClassFromExist} from 'class-transformer';
+import {ItemsData} from '../../entities/itemsData';
 
 @Component({
   selector: 'app-createitem',
@@ -41,9 +43,12 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
       item.date = this.date;
 
       const subscription = this.itemService.create(item).subscribe(
-        (response: ApiResponse<CreateData>) => {
+        (apiResponse: ApiResponse<CreateData>) => {
+          const response = plainToClassFromExist(new ApiResponse<CreateData>(CreateData), apiResponse);
           this.processing = false;
-          // TODO refactor
+
+
+          // TODO implement handle errors
           if (response.success) {
             this.activeModal.close();
 

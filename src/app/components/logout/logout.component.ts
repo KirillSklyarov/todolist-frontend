@@ -7,6 +7,7 @@ import {Type} from '../../entities/alert';
 import {TokenService} from '../../services/token.service';
 import {ConfirmComponent} from '../modal/confirm.component';
 import {InitService} from '../../services/init.service';
+import {plainToClassFromExist} from 'class-transformer';
 
 @Component({
   selector: 'app-logout',
@@ -41,7 +42,8 @@ export class LogoutComponent extends ConfirmComponent implements OnInit, OnDestr
     } else {
       this.processing = true;
       const subscription = this.userService.logout()
-        .subscribe((response: ApiResponse<Token>) => {
+        .subscribe((apiResponse: ApiResponse<Token>) => {
+          const response = plainToClassFromExist(new ApiResponse<Token>(Token), apiResponse);
           this.processing = false;
           if (response.success) {
             this.initService.reinit();

@@ -7,6 +7,7 @@ import {ItemService} from '../../services/item.service';
 import {Alert, Type} from '../../entities/alert';
 import {ApiResponse} from '../../entities/api-response';
 import {CreateData} from '../../entities/createData';
+import {plainToClassFromExist} from 'class-transformer';
 
 @Component({
   selector: 'app-delete',
@@ -29,9 +30,10 @@ export class DeleteComponent extends ConfirmComponent implements OnInit, OnDestr
     super.yes();
     this.processing = true;
     const subscription = this.itemService.delete(this.item).subscribe(
-      (response: ApiResponse<null>) => {
+      (apiResponse: ApiResponse<null>) => {
+        const response = plainToClassFromExist(new ApiResponse<null>(null), apiResponse);
         this.processing = false;
-        // TODO refactor
+        // TODO implement handling errors
         if (response.success) {
           this.activeModal.close();
         } else {

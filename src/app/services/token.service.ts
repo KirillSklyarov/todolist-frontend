@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import {Token} from '../entities/token';
 import {Subject} from 'rxjs';
+import {classToPlain} from 'class-transformer';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TokenService {
   public setToken(token: Token|null) {
     try {
       if (token) {
-        localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('token', JSON.stringify(classToPlain(token)));
       } else {
         localStorage.removeItem('token');
       }

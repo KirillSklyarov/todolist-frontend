@@ -14,6 +14,8 @@ import {DeleteComponent} from '../delete/delete.component';
 import {TodolistState} from '../../entities/todolistState';
 import {InitService} from '../../services/init.service';
 import {AppState} from '../../entities/appState';
+import {plainToClass, plainToClassFromExist} from 'class-transformer';
+import {DateTime} from 'luxon';
 
 @Component({
   selector: 'app-todolist',
@@ -85,24 +87,24 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.state = TodolistState.processing;
     this.activeItem = null;
     const listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
-      .subscribe((response: ApiResponse<ItemsData>) => {
-          if (response.success) {
-            this.state = TodolistState.success;
-            this.count = response.data.count;
-            this.items = response.data.items;
-          } else {
-            this.state = TodolistState.serverError;
-            // TODO Handle error
-            console.log(response);
-          }
-        },
-        response => {
-          if (response.status === 401) {
-            this.state = TodolistState.authError;
-          } else {
-            this.state = TodolistState.serverError;
-          }
-        });
+      .subscribe((apiResponse: ApiResponse<ItemsData>) => {
+        const response = plainToClassFromExist(new ApiResponse<ItemsData>(ItemsData), apiResponse);
+        if (response.success) {
+          this.state = TodolistState.success;
+          this.count = response.data.count;
+          this.items = response.data.items;
+        } else {
+          this.state = TodolistState.serverError;
+          // TODO Handle error
+          console.log(response);
+        }
+      }, response => {
+        if (response.status === 401) {
+          this.state = TodolistState.authError;
+        } else {
+          this.state = TodolistState.serverError;
+        }
+      });
 
     this.subscriptions.add(listSubscription);
   }

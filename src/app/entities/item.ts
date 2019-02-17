@@ -1,6 +1,6 @@
 export class Item {
   uuid: string;
-  position: 10;
+  position: number;
   date: string;
   title: string;
   description: string;

@@ -6,6 +6,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
 import {UserComponent} from '../user/user.component';
 import {environment} from '../../../environments/environment';
+import {plainToClassFromExist} from 'class-transformer';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,8 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
       this.processing = true;
       this.alerts = [];
       const subscription = this.userService.login(this.username, this.password)
-        .subscribe((response: ApiResponse<Token>) => {
+        .subscribe((apiResponse: ApiResponse<Token>) => {
+          const response = plainToClassFromExist(new ApiResponse<Token>(Token), apiResponse);
           this.processing = false;
           if (response.success) {
             this.activeModal.close();
