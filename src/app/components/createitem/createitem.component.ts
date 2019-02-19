@@ -6,10 +6,9 @@ import {ApiResponse} from '../../entities/api-response';
 import {CreateData} from '../../entities/createData';
 import {ModalComponent} from '../modal/modal.component';
 import {Alert, Type} from '../../entities/alert';
-import {environment} from '../../../environments/environment';
+import {messages} from '../../messages';
 import {InitService} from '../../services/init.service';
 import {plainToClassFromExist} from 'class-transformer';
-import {ItemsData} from '../../entities/itemsData';
 
 @Component({
   selector: 'app-createitem',
@@ -46,21 +45,14 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
         (apiResponse: ApiResponse<CreateData>) => {
           const response = plainToClassFromExist(new ApiResponse<CreateData>(CreateData), apiResponse);
           this.processing = false;
-
-
-          // TODO implement handle errors
           if (response.success) {
             this.activeModal.close();
-
-
           } else {
-            this.processing = false;
             this.alerts.push(new Alert(Type.danger, response.error.message));
           }
 
         },
         response => {
-          console.error(response);
           let message: string;
           this.processing = false;
           if (response.status > 0) {
@@ -69,18 +61,18 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
             } else {
               switch (response.status) {
                 case 400:
-                  message = environment.errors.input;
+                  message = messages.errors.input;
                   break;
                 case 401:
-                  message = environment.errors.token;
+                  message = messages.errors.token;
                   break;
                 default:
-                  message = environment.errors.server;
+                  message = messages.errors.server;
                   break;
               }
             }
           } else {
-            message = environment.errors.connection;
+            message = messages.errors.connection;
           }
           this.alerts.push(new Alert(Type.danger, message));
           if (response.status === 401) {

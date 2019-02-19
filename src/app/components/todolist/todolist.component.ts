@@ -13,9 +13,7 @@ import {Token} from '../../entities/token';
 import {DeleteComponent} from '../delete/delete.component';
 import {TodolistState} from '../../entities/todolistState';
 import {InitService} from '../../services/init.service';
-import {AppState} from '../../entities/appState';
-import {plainToClass, plainToClassFromExist} from 'class-transformer';
-import {DateTime} from 'luxon';
+import {plainToClassFromExist} from 'class-transformer';
 
 @Component({
   selector: 'app-todolist',
@@ -95,8 +93,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
           this.items = response.data.items;
         } else {
           this.state = TodolistState.serverError;
-          // TODO Handle error
-          console.log(response);
         }
       }, response => {
         if (response.status === 401) {

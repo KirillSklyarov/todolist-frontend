@@ -5,7 +5,7 @@ import {Token} from '../../entities/token';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
 import {UserComponent} from '../user/user.component';
-import {environment} from '../../../environments/environment';
+import {messages} from '../../messages';
 import {plainToClassFromExist} from 'class-transformer';
 
 @Component({
@@ -39,7 +39,6 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
             this.alerts.push(new Alert(Type.danger, response.error.message));
           }
         }, (response) => {
-          console.log(response);
           this.processing = false;
           let message: string;
           if (response.status > 0) {
@@ -48,18 +47,18 @@ export class LoginComponent extends UserComponent implements OnInit, OnDestroy {
             } else {
               switch (response.status) {
                 case 400:
-                  message = environment.errors.input;
+                  message = messages.errors.input;
                   break;
                 case 401:
-                  message = environment.errors.auth;
+                  message = messages.errors.auth;
                   break;
                 default:
-                  message = environment.errors.server;
+                  message = messages.errors.server;
                   break;
               }
             }
           } else {
-            message = environment.errors.connection;
+            message = messages.errors.connection;
           }
           this.alerts.push(new Alert(Type.danger, message));
         });

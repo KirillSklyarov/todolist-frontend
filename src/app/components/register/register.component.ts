@@ -5,7 +5,7 @@ import {Token} from '../../entities/token';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Alert, Type} from '../../entities/alert';
 import {UserComponent} from '../user/user.component';
-import {environment} from '../../../environments/environment';
+import {messages} from '../../messages';
 import {InitService} from '../../services/init.service';
 import {plainToClassFromExist} from 'class-transformer';
 
@@ -52,18 +52,18 @@ export class RegisterComponent extends UserComponent implements OnInit, OnDestro
             } else {
               switch (response.status) {
                 case 400:
-                  message = environment.errors.input;
+                  message = messages.errors.input;
                   break;
                 case 401:
-                  message = environment.errors.token;
+                  message = messages.errors.token;
                   break;
                 default:
-                  message = environment.errors.server;
+                  message = messages.errors.server;
                   break;
               }
             }
           } else {
-            message = environment.errors.connection;
+            message = messages.errors.connection;
           }
           this.alerts.push(new Alert(Type.danger, message));
           if (response.status === 401) {
