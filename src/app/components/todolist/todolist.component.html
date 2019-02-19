@@ -5,6 +5,9 @@
                       (select)="selectDate($event)"
                       appStopPropagation>
       </ngb-datepicker>
+      <button (click)="today()" class="btn btn-primary btn-lg btn-block today"
+              appStopPropagation>Today
+      </button>
     </div>
   </div>
   <div class="w-75 todolist d-flex justify-content-between">
@@ -31,7 +34,8 @@
         </div>
         <div #nav class="todolist-nav">
           <div #open class="add d-flex justify-content-center">
-            <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block" appStopPropagation>
+            <button (click)="openCreate()" class="btn btn-primary btn-lg btn-block"
+                    appStopPropagation>
               Create
             </button>
           </div>

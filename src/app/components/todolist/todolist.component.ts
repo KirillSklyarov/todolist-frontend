@@ -45,7 +45,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    console.log(this.date);
     this.state = TodolistState.processing;
     this.ngbDate = {
       day: this.date.day,
@@ -116,21 +115,27 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public stepDate(days: number): void {
     this.date = this.date.plus({days});
     this.page = 1;
-    this.navigateTo(this.date);
+    this.navigate();
     this.loadItems();
   }
 
-  private navigateTo(date: DateTime): void {
+  public today() {
+    this.date = DateTime.local();
+    this.navigate();
+    this.loadItems();
+  }
+
+  private navigate(): void {
     this.ngbDate = {
-      day: date.day,
-      month: date.month,
-      year: date.year,
+      day: this.date.day,
+      month: this.date.month,
+      year: this.date.year,
     };
 
     this.dp.navigateTo({
-      day: date.day,
-      month: date.month,
-      year: date.year,
+      day: this.date.day,
+      month: this.date.month,
+      year: this.date.year,
     });
   }
 

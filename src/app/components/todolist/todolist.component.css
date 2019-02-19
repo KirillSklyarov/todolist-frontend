@@ -19,6 +19,10 @@
   margin-left: 0.7rem;
 }
 
+.today {
+  margin-top: 0.7rem;
+}
+
 .todolist-nav .add {
   margin-bottom: 0.7rem;
 }
@@ -28,14 +32,14 @@
   margin-right: 0.7rem;
   margin-bottom: 0.7rem;
   margin-left: 0.7rem;
-  height: calc(100vh - 3rem - 2*0.7rem - 1px);
+  height: calc(100vh - 3rem - 2 * 0.7rem - 1px);
 }
 
 
 button.step {
   color: lightgrey;
   font-size: x-large;
-  height: calc(100vh - 3rem - 2*0.7rem - 1px);
+  height: calc(100vh - 3rem - 2 * 0.7rem - 1px);
   width: calc(100% - 0.5rem);
   margin: 0.7rem 0.5rem;
 }
