@@ -14,6 +14,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { DeleteComponent } from './components/delete/delete.component';
+import { StopDirective } from './directives/stop.directive';
 
 // import { FormsModule } from '@angular/forms';
 
@@ -27,6 +28,7 @@ import { DeleteComponent } from './components/delete/delete.component';
     LoginComponent,
     LogoutComponent,
     DeleteComponent,
+    StopDirective,
   ],
   imports: [
     BrowserModule,

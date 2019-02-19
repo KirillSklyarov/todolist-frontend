@@ -167,11 +167,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
     return Math.ceil(this.count / this.countPerPage);
   }
 
-  public resetActive(event: MouseEvent, ...target: Element[]) {
-    console.log(event);
-    if  (target.includes(event.srcElement)) {
-      this.active = null;
-    }
+  public resetActive() {
+    this.active = null;
   }
 
   public ngOnDestroy(): void {
