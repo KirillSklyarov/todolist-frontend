@@ -31,7 +31,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   public date: Date = new Date();
   public page: number = 1;
   public items: Item[] = [];
-  public activeItem: Item = null;
+  public active: Item = null;
   public TodolistState;
   public state: TodolistState = TodolistState.processing;
   ngbDate: NgbDateStruct;
@@ -83,7 +83,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public loadItems() {
     this.state = TodolistState.processing;
-    this.activeItem = null;
+    this.active = null;
     const listSubscription = this.itemService.getList(this.date, this.page, this.countPerPage)
       .subscribe((apiResponse: ApiResponse<ItemsData>) => {
         const response = plainToClassFromExist(new ApiResponse<ItemsData>(ItemsData), apiResponse);
@@ -152,10 +152,9 @@ export class TodolistComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.date = this.helper.formatDate(this.date);
   }
 
-  public selectItem(item: Item, event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (target.nodeName === 'LI') {
-      this.activeItem = item;
+  public selectItem(item: Item, event: MouseEvent, target: HTMLElement): void {
+    if (event.target as HTMLElement === target) {
+      this.active = item;
     }
   }
 
@@ -166,6 +165,13 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   public getLastPage(): number {
     return Math.ceil(this.count / this.countPerPage);
+  }
+
+  public resetActive(event: MouseEvent, ...target: Element[]) {
+    console.log(event);
+    if  (target.includes(event.srcElement)) {
+      this.active = null;
+    }
   }
 
   public ngOnDestroy(): void {
