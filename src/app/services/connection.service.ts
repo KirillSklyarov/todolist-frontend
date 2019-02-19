@@ -1,13 +1,6 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
-import {ApiResponse} from '../entities/api-response';
-import {Item} from '../entities/item';
-import {ItemsData} from '../entities/itemsData';
-import {CreateData} from '../entities/createData';
-import {HelperService} from './helper.service';
 import {TokenService} from './token.service';
 import {Token} from '../entities/token';
 

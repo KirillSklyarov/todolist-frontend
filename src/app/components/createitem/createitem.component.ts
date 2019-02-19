@@ -51,8 +51,7 @@ export class CreateitemComponent extends ModalComponent implements OnInit {
             this.alerts.push(new Alert(Type.danger, response.error.message));
           }
 
-        },
-        response => {
+        }, response => {
           let message: string;
           this.processing = false;
           if (response.status > 0) {
