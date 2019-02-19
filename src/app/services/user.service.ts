@@ -1,11 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
-import {environment} from '../../environments/environment';
 import {ApiResponse} from '../entities/api-response';
-import {HelperService} from './helper.service';
-import {User} from '../entities/user';
 import {TokenService} from './token.service';
 import {Token} from '../entities/token';
 import {tap} from 'rxjs/operators';

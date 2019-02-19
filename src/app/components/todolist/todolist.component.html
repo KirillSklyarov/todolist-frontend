@@ -18,12 +18,12 @@
             No items
           </div>
           <ul *ngIf="items" class="list-group" appStopPropagation>
-            <li #li *ngFor="let item of items" (click)="selectItem(item, $event, li)"
+            <li *ngFor="let item of items" (click)="selectItem(item)"
                 class="list-group-item list-group-item-action pointer"
                 [ngClass]="{'active': active === item}">
               {{item.title}}
               <button type="button" class="close" aria-label="Close"
-                      (click)="openDelete(item)">
+                      (click)="openDelete(item)" appStopPropagation>
                 <span aria-hidden="true">&times;</span>
               </button>
             </li>

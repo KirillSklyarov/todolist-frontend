@@ -5,15 +5,15 @@ import {ApiResponse} from '../../entities/api-response';
 import {ItemsData} from '../../entities/itemsData';
 import {ItemService} from '../../services/item.service';
 import {Item} from '../../entities/item';
-import {NgbCalendar, NgbDate, NgbDatepicker, NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDate, NgbDatepicker, NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CreateitemComponent} from '../createitem/createitem.component';
-import {HelperService} from '../../services/helper.service';
 import {TokenService} from '../../services/token.service';
 import {Token} from '../../entities/token';
 import {DeleteComponent} from '../delete/delete.component';
 import {TodolistState} from '../../entities/todolistState';
 import {InitService} from '../../services/init.service';
 import {plainToClassFromExist} from 'class-transformer';
+import {DateTime} from 'luxon';
 
 @Component({
   selector: 'app-todolist',
@@ -28,7 +28,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   private count: number = 0;
   private token: Token;
 
-  public date: Date = new Date();
+  public date = DateTime.local();
   public page: number = 1;
   public items: Item[] = [];
   public active: Item = null;
@@ -39,19 +39,18 @@ export class TodolistComponent implements OnInit, OnDestroy {
   constructor(private itemService: ItemService,
               private modalService: NgbModal,
               private tokenService: TokenService,
-              private initService: InitService,
-              private helper: HelperService,
-              private calendar: NgbCalendar) {
+              private initService: InitService) {
     this.TodolistState = TodolistState;
 
   }
 
   public ngOnInit(): void {
+    console.log(this.date);
     this.state = TodolistState.processing;
     this.ngbDate = {
-      day: this.date.getDate(),
-      month: this.date.getMonth() + 1,
-      year: this.date.getFullYear(),
+      day: this.date.day,
+      month: this.date.month,
+      year: this.date.year,
     };
 
     this.countPerPage = environment.defaultCountPerPage;
@@ -115,47 +114,39 @@ export class TodolistComponent implements OnInit, OnDestroy {
   }
 
   public stepDate(days: number): void {
-    this.date.setDate(this.date.getDate() + days);
+    this.date = this.date.plus({days});
     this.page = 1;
     this.navigateTo(this.date);
     this.loadItems();
   }
 
-  private setDate(date: Date): void {
-    this.date = date;
-  }
-
-  private navigateTo(date: Date): void {
+  private navigateTo(date: DateTime): void {
     this.ngbDate = {
-      day: date.getDate(),
-      month: date.getMonth() + 1,
-      year: date.getFullYear(),
+      day: date.day,
+      month: date.month,
+      year: date.year,
     };
 
     this.dp.navigateTo({
-      day: date.getDate(),
-      month: date.getMonth() + 1,
-      year: date.getFullYear(),
+      day: date.day,
+      month: date.month,
+      year: date.year,
     });
   }
 
   public selectDate(date: NgbDate): void {
-    this.date.setDate(date.day);
-    this.date.setMonth(date.month - 1);
-    this.date.setFullYear(date.year);
+    this.date = DateTime.local(date.year, date.month, date.day);
     this.page = 1;
     this.loadItems();
   }
 
   public openCreate(): void {
     const modalRef = this.modalService.open(CreateitemComponent);
-    modalRef.componentInstance.date = this.helper.formatDate(this.date);
+    modalRef.componentInstance.date = this.date.toISODate();
   }
 
-  public selectItem(item: Item, event: MouseEvent, target: HTMLElement): void {
-    if (event.target as HTMLElement === target) {
-      this.active = item;
-    }
+  public selectItem(item: Item): void {
+    this.active = item;
   }
 
   public openDelete(item: Item): void {

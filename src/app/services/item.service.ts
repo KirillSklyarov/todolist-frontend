@@ -2,15 +2,14 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
-import {environment} from '../../environments/environment';
 import {ApiResponse} from '../entities/api-response';
 import {Item} from '../entities/item';
 import {ItemsData} from '../entities/itemsData';
 import {CreateData} from '../entities/createData';
-import {HelperService} from './helper.service';
 import {TokenService} from './token.service';
 import {ConnectionService} from './connection.service';
 import {tap} from 'rxjs/operators';
+import {DateTime} from 'luxon';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +26,7 @@ export class ItemService extends ConnectionService {
   private deleteEvent: EventEmitter<Item> = new EventEmitter();
 
   constructor(httpClient: HttpClient,
-              tokenService: TokenService,
-              private helper: HelperService) {
+              tokenService: TokenService) {
     super(httpClient, tokenService);
   }
 
@@ -40,19 +38,15 @@ export class ItemService extends ConnectionService {
     return this.deleteEvent;
   }
 
-  public getList(date: Date, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
-    const formattedDate = this.helper.formatDate(date);
-
+  public getList(date: DateTime, page: number = 1, count: number = 10): Observable<ApiResponse<ItemsData>> {
     return this.httpClient.get<ApiResponse<ItemsData>>(
-      `${ItemService.readItemsUri}/${formattedDate}/${page}/${count}`,
+      `${ItemService.readItemsUri}/${date.toISODate()}/${page}/${count}`,
       this.options);
   }
 
-  public getCount(date: Date): Observable<ApiResponse<number>> {
-    const formattedDate = this.helper.formatDate(date);
-
+  public getCount(date: DateTime): Observable<ApiResponse<number>> {
     return this.httpClient.get<ApiResponse<number>>(
-      `${ItemService.readItemsCountUrl}/${formattedDate}`,
+      `${ItemService.readItemsCountUrl}/${date.toISODate()}`,
       this.options);
   }
 
@@ -60,6 +54,7 @@ export class ItemService extends ConnectionService {
     return this.httpClient.post<ApiResponse<CreateData>>(
       ItemService.createItemUrl, item, this.options)
       .pipe(
+        // TODO reset item
         tap((created: ApiResponse<CreateData>) => {
           this.createEvent.emit(item);
         })
